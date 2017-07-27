@@ -1,0 +1,22 @@
+{
+  "name": "wiremock_mapper",
+  "version": "0.0.1",
+  "description": "DSL for setting up WireMock mappings.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ike18t/wiremock_mapper_node.git"
+  },
+  "keywords": [
+    "wiremock"
+  ],
+  "author": "Isaac Datlof",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ike18t/wiremock_mapper_node/issues"
+  },
+  "homepage": "https://github.com/ike18t/wiremock_mapper_node#readme"
+}
