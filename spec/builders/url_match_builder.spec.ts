@@ -1,5 +1,5 @@
-import { RequestBuilder } from '../../lib/builders/request_builder'
-import { UrlMatchBuilder } from '../../lib/builders/url_match_builder'
+import { RequestBuilder } from '../../lib/builders/request_builder';
+import { UrlMatchBuilder } from '../../lib/builders/url_match_builder';
 
 describe('UrlMatchBuilder', () => {
   describe('constructed with path = true', () => {

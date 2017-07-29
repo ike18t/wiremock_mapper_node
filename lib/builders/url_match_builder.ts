@@ -1,5 +1,4 @@
 import { RequestBuilder } from './request_builder';
-import { ResponseBuilder } from './response_builder';
 
 export class UrlMatchBuilder {
 

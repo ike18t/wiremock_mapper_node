@@ -1,5 +1,5 @@
 export class ResponseBuilder {
-  private _jsonObject = {};
+  private _jsonObject: any = {};
 
   public toJSON = () => this._jsonObject;
 

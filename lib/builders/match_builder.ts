@@ -1,7 +1,7 @@
 import { RequestBuilder } from '../../lib/builders/request_builder'
 
 export class MatchBuilder {
-  constructor(private readonly requestBuilder) {}
+  constructor(private readonly requestBuilder: RequestBuilder) {}
 
   private _type: string;
   private _value: string | boolean;
