@@ -84,6 +84,25 @@ describe('WireMockMapper', () => {
              .catch(() => done());;
     });
 
+    it('rejects the promise if there was an error with the request', (done) => {
+      const expected_request_body = { request: { method: 'POST', urlPath: '/some/path' },
+                                      response: { body: 'some response body' } };
+
+      nock('http://localhost:8080', { reqheaders: { 'Content-Type': 'application/json' } })
+        .post('/__admin/mappings', expected_request_body)
+        .replyWithError('something went wrong...sorry dude...')
+
+      const promise = WireMockMapper.createMapping((request: RequestBuilder, respond: ResponseBuilder)  => {
+        request.isAPost()
+               .withUrlPath().equalTo('/some/path')
+
+        respond.withBody('some response body')
+      });
+
+      promise.then(() => done.fail())
+             .catch(() => done());;
+    });
+
     xit('sends the global mappings', (done) => {
       Configuration.createGlobalMapping((request: RequestBuilder, respond: ResponseBuilder)  => {
         request.withHeader('some_header').equalTo('some header value')
@@ -180,6 +199,15 @@ describe('WireMockMapper', () => {
       promise.then(() => done.fail())
              .catch(() => done());
     });
+
+    it('rejects the promise if there was an error with the request', (done) => {
+      nock('http://localhost:8080')
+        .delete('/__admin/mappings/123')
+        .replyWithError('something went wrong...sorry dude...');
+      const promise = WireMockMapper.deleteMapping('123');
+      promise.then(() => done.fail())
+             .catch(() => done());
+    });
   });
 
   describe('clearAllMappings', () => {
@@ -196,6 +224,15 @@ describe('WireMockMapper', () => {
       nock('http://localhost:8080')
         .post('/__admin/mappings/reset')
         .reply(400);
+      const promise = WireMockMapper.clearAllMappings();
+      promise.then(() => done.fail())
+             .catch(() => done());
+    });
+
+    it('rejects the promise if there was an error with the request', (done) => {
+      nock('http://localhost:8080')
+        .post('/__admin/mappings/reset')
+        .replyWithError('something went wrong...sorry dude...');
       const promise = WireMockMapper.clearAllMappings();
       promise.then(() => done.fail())
              .catch(() => done());
