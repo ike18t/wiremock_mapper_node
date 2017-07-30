@@ -3,9 +3,9 @@ const ts = require('gulp-typescript');
 const jasmine = require('gulp-jasmine');
 const clean = require('gulp-clean');
 const runSequence = require('run-sequence');
+const merge = require('merge2');
 
 gulp.task('build', function() {
-    const merge = require('merge2');
     const tsProject = ts.createProject('tsconfig.json');
 
     var tsResult = tsProject.src()
