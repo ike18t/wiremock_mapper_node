@@ -9,6 +9,7 @@
   },
   "scripts": {
     "test": "gulp test",
+    "coverage": "gulp coverage",
     "release": "standard-version"
   },
   "repository": {
@@ -28,8 +29,10 @@
     "@types/jasmine": "^2.5.53",
     "@types/nock": "^8.2.1",
     "@types/node": "^8.0.17",
+    "codeclimate-test-reporter": "^0.5.0",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
+    "gulp-istanbul": "^1.1.2",
     "gulp-jasmine": "^2.4.2",
     "gulp-typescript": "^3.2.1",
     "jasmine": "^2.6.0",

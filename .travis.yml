@@ -1,4 +1,6 @@
 language: node_js
+env:
+  - CODECLIMATE_REPO_TOKEN=7ba98aca9f50871c9d498b22b2f7f11cc780e4894a93127e843eecd6307588ba
 matrix:
   notifications:
     email:
@@ -6,3 +8,5 @@ matrix:
         - ike18t@gmail.com
       on_success: change
       on_failure: change
+after_success:
+  - ./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info

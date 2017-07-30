@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const ts = require('gulp-typescript');
 const jasmine = require('gulp-jasmine');
+const istanbul = require('gulp-istanbul');
 const clean = require('gulp-clean');
 const runSequence = require('run-sequence');
 const merge = require('merge2');
@@ -22,9 +23,17 @@ gulp.task('clean', function () {
         .pipe(clean());
 });
 
-gulp.task('test:run', function() {
-    return gulp.src('dist/spec/**')
-      .pipe(jasmine())
+gulp.task('pre-test', function () {
+  return gulp.src(['dist/lib/**/*.js'])
+    .pipe(istanbul())
+    .pipe(istanbul.hookRequire());
+});
+
+gulp.task('test:run', ['pre-test'], function() {
+  return gulp.src('dist/spec/**')
+    .pipe(jasmine())
+    .pipe(istanbul.writeReports({ reporters: ['lcov'] }));
+    // .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }));
 });
 
 gulp.task('watch', ['default'], function() {
