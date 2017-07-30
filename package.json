@@ -26,6 +26,7 @@
   "homepage": "https://github.com/ike18t/wiremock_mapper_node#readme",
   "devDependencies": {
     "@types/jasmine": "^2.5.53",
+    "@types/nock": "^8.2.1",
     "@types/node": "^8.0.17",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
@@ -33,8 +34,10 @@
     "gulp-typescript": "^3.2.1",
     "jasmine": "^2.6.0",
     "merge2": "^1.1.0",
+    "nock": "^9.0.14",
     "run-sequence": "^2.1.0",
     "tslint": "^5.5.0",
     "typescript": "^2.4.2"
-  }
+  },
+  "dependencies": {}
 }

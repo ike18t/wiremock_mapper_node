@@ -1,7 +1,25 @@
 import { MatchBuilder } from '../../lib/builders/match_builder'
 import { UrlMatchBuilder } from '../../lib/builders/url_match_builder'
 
-export class RequestBuilder {
+export interface RequestBuilder {
+  isAnyVerb(): RequestBuilder;
+  isADelete(): RequestBuilder;
+  isAGet(): RequestBuilder;
+  isAHead(): RequestBuilder;
+  isAnOptions(): RequestBuilder;
+  isAPost(): RequestBuilder;
+  isAPut(): RequestBuilder;
+  isATrace(): RequestBuilder;
+  withBasicAuth(username: string, password: String): RequestBuilder;
+  withBody(): MatchBuilder;
+  withCookie(key: string): MatchBuilder;
+  withHeader(key: string): MatchBuilder;
+  withQueryParam(key: string): MatchBuilder;
+  withUrl(): UrlMatchBuilder;
+  withUrlPath(): UrlMatchBuilder;
+}
+
+export class RequestBuilderImpl implements RequestBuilder {
   private _options: any = {};
   private _urlMatchBuilder: UrlMatchBuilder = new UrlMatchBuilder(this);
 
