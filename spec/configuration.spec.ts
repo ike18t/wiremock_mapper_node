@@ -1,16 +1,16 @@
-import { Configuration } from '../lib/configuration';
+import { Configuration } from "../lib/configuration";
 
-describe('Configuration', () => {
-  describe('createGlobalMapping', () => {
-    xit('should set the request builder on configuration', () => {
+describe("Configuration", () => {
+  describe("createGlobalMapping", () => {
+    xit("should set the request builder on configuration", () => {
       Configuration.createGlobalMapping((requestBuilder, responseBuilder) => {
-        requestBuilder.withHeader('foo').equalTo('bar');
+        requestBuilder.withHeader("foo").equalTo("bar");
       });
-      const expectedJSON = JSON.stringify({ headers: { foo: { equalTo: 'bar' } } });
+      const expectedJSON = JSON.stringify({ headers: { foo: { equalTo: "bar" } } });
       expect(JSON.stringify(Configuration.requestBuilder)).toEqual(expectedJSON);
     });
 
-    xit('should set the response builder on configuration', () => {
+    xit("should set the response builder on configuration", () => {
       Configuration.createGlobalMapping((requestBuilder, responseBuilder) => {
         responseBuilder.withDelay(500);
       });

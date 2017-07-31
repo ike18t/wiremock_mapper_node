@@ -1,8 +1,8 @@
-import { WireMockMapping } from './wiremock_mapping';
-import { WireMockService } from './wiremock_service';
 // import { Configuration } from './configuration';
-import { RequestBuilderImpl } from './builders/request_builder';
-import { ResponseBuilderImpl } from './builders/response_builder';
+import { RequestBuilderImpl } from "./builders/request_builder";
+import { ResponseBuilderImpl } from "./builders/response_builder";
+import { WireMockMapping } from "./wiremock_mapping";
+import { WireMockService } from "./wiremock_service";
 
 export class WireMockMapper {
   public static clearAllMappings(): Promise<void> {
@@ -10,7 +10,7 @@ export class WireMockMapper {
   }
 
   public static createMapping(wireMockMapping: WireMockMapping): Promise<string> {
-    //TODO: fix global mapping by deep cloning somehow
+    // TODO: fix global mapping by deep cloning somehow
     // const requestBuilder = Configuration.requestBuilder;
     // const requestBuilder = Configuration.requestBuilder;
     const requestBuilder = new RequestBuilderImpl();
@@ -18,9 +18,9 @@ export class WireMockMapper {
 
     wireMockMapping(requestBuilder, responseBuilder);
     return new Promise<string>((resolve, reject) => {
-      let response = WireMockService.sendToWireMock({ request: requestBuilder, response: responseBuilder });
+      const response = WireMockService.sendToWireMock({ request: requestBuilder, response: responseBuilder });
       response.then((data) => resolve(JSON.parse(data).id))
-              .catch((error) => reject(error)) ;
+              .catch(reject) ;
     });
   }
 

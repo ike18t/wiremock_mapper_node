@@ -1,16 +1,16 @@
-import { MatchBuilder } from '../../lib/builders/match_builder'
-import { UrlMatchBuilder } from '../../lib/builders/url_match_builder'
+import { MatchBuilder } from "../../lib/builders/match_builder";
+import { UrlMatchBuilder } from "../../lib/builders/url_match_builder";
 
 export interface RequestBuilder {
-  isAnyVerb(): RequestBuilder;
   isADelete(): RequestBuilder;
   isAGet(): RequestBuilder;
   isAHead(): RequestBuilder;
   isAnOptions(): RequestBuilder;
+  isAnyVerb(): RequestBuilder;
   isAPost(): RequestBuilder;
   isAPut(): RequestBuilder;
   isATrace(): RequestBuilder;
-  withBasicAuth(username: string, password: String): RequestBuilder;
+  withBasicAuth(username: string, password: string): RequestBuilder;
   withBody(): MatchBuilder;
   withCookie(key: string): MatchBuilder;
   withHeader(key: string): MatchBuilder;
@@ -20,99 +20,99 @@ export interface RequestBuilder {
 }
 
 export class RequestBuilderImpl implements RequestBuilder {
-  private _options: any = {};
-  private _urlMatchBuilder: UrlMatchBuilder = new UrlMatchBuilder(this);
-
-  public toJSON = () => Object.assign({}, this._options, this._urlMatchBuilder.toJSON());
-
-  public isAnyVerb() {
-    this._options['method'] = 'ANY';
-    return this;
-  }
+  private options: any = {};
+  private urlMatchBuilder: UrlMatchBuilder = new UrlMatchBuilder(this);
 
   public isADelete() {
-    this._options['method'] = 'DELETE';
+    this.options.method = "DELETE";
     return this;
   }
 
   public isAGet() {
-    this._options['method'] = 'GET';
+    this.options.method = "GET";
     return this;
   }
 
   public isAHead() {
-    this._options['method'] = 'HEAD';
+    this.options.method = "HEAD";
     return this;
   }
 
   public isAnOptions() {
-    this._options['method'] = 'OPTIONS';
+    this.options.method = "OPTIONS";
+    return this;
+  }
+
+  public isAnyVerb() {
+    this.options.method = "ANY";
     return this;
   }
 
   public isAPost() {
-    this._options['method'] = 'POST';
+    this.options.method = "POST";
     return this;
   }
 
   public isAPut() {
-    this._options['method'] = 'PUT';
+    this.options.method = "PUT";
     return this;
   }
 
   public isATrace() {
-    this._options['method'] = 'TRACE';
+    this.options.method = "TRACE";
     return this;
   }
 
+  public toJSON = () => ({ ...this.options, ...this.urlMatchBuilder.toJSON() });
+
   public withBasicAuth(username: string, password: string): RequestBuilder {
-    this._options['basicAuth'] = { 'username': username, 'password': password };
+    this.options.basicAuth = { username, password };
     return this;
   }
 
   public withBody(): MatchBuilder {
-    if (!this._options['bodyPatterns']) {
-      this._options['bodyPatterns'] = []
+    if (!this.options.bodyPatterns) {
+      this.options.bodyPatterns = [];
     }
     const matchBuilder = new MatchBuilder(this);
-    this._options['bodyPatterns'].push(matchBuilder);
+    this.options.bodyPatterns.push(matchBuilder);
     return matchBuilder;
   }
 
   public withCookie(key: string): MatchBuilder {
-    if (!this._options['cookies']) {
-      this._options['cookies'] = {}
+    if (!this.options.cookies) {
+      this.options.cookies = {};
     }
     const matchBuilder = new MatchBuilder(this);
-    this._options['cookies'][key] = matchBuilder;
+    this.options.cookies[key] = matchBuilder;
     return matchBuilder;
   }
 
   public withHeader(key: string): MatchBuilder {
-    if (!this._options['headers']) {
-      this._options['headers'] = {}
+    if (!this.options.headers) {
+      this.options.headers = {};
     }
     const matchBuilder = new MatchBuilder(this);
-    this._options['headers'][key] = matchBuilder;
+    this.options.headers[key] = matchBuilder;
     return matchBuilder;
   }
 
   public withQueryParam(key: string): MatchBuilder {
-    if (!this._options['queryParameters']) {
-      this._options['queryParameters'] = {}
+    if (!this.options.queryParameters) {
+      this.options.queryParameters = {};
     }
     const matchBuilder = new MatchBuilder(this);
-    this._options['queryParameters'][key] = matchBuilder;
+    this.options.queryParameters[key] = matchBuilder;
     return matchBuilder;
   }
 
   public withUrl(): UrlMatchBuilder {
-    this._urlMatchBuilder = new UrlMatchBuilder(this);
-    return this._urlMatchBuilder;
+    this.urlMatchBuilder = new UrlMatchBuilder(this);
+    return this.urlMatchBuilder;
   }
 
   public withUrlPath(): UrlMatchBuilder {
-    this._urlMatchBuilder = new UrlMatchBuilder(this, true);
-    return this._urlMatchBuilder;
+    this.urlMatchBuilder = new UrlMatchBuilder(this, true);
+    return this.urlMatchBuilder;
   }
 }

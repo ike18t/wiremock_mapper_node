@@ -8,9 +8,10 @@
     "definition": "definitions/index"
   },
   "scripts": {
-    "test": "gulp test",
     "coverage": "gulp coverage",
-    "release": "standard-version"
+    "lint": "gulp lint",
+    "release": "standard-version",
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
     "gulp-clean": "^0.3.2",
     "gulp-istanbul": "^1.1.2",
     "gulp-jasmine": "^2.4.2",
+    "gulp-tslint": "^8.1.1",
     "gulp-typescript": "^3.2.1",
     "jasmine": "^2.6.0",
     "merge2": "^1.1.0",

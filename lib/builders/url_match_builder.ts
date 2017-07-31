@@ -1,22 +1,22 @@
-import { RequestBuilder } from './request_builder';
+import { RequestBuilder } from "./request_builder";
 
 export class UrlMatchBuilder {
 
-  constructor(private readonly requestBuilder: RequestBuilder, private readonly path: boolean = false) {};
+  private jsonObject = {};
 
-  private _jsonObject = {};
-
-  public toJSON = () => this._jsonObject;
+  constructor(private readonly requestBuilder: RequestBuilder, private readonly path: boolean = false) {}
 
   public equalTo(url: string): RequestBuilder {
-    let urlType = this.path ? 'urlPath' : 'url';
-    this._jsonObject = { [urlType]: url };
+    const urlType = this.path ? "urlPath" : "url";
+    this.jsonObject = { [urlType]: url };
     return this.requestBuilder;
   }
 
   public matching(regexp: string): RequestBuilder {
-    let urlType = this.path ? 'urlPathPattern' : 'urlPattern';
-    this._jsonObject = { [urlType]: regexp };
+    const urlType = this.path ? "urlPathPattern" : "urlPattern";
+    this.jsonObject = { [urlType]: regexp };
     return this.requestBuilder;
   }
+
+  public toJSON = () => this.jsonObject;
 }
