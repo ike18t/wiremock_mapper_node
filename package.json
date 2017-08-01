@@ -1,6 +1,6 @@
 {
   "name": "wiremock-mapper",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "DSL for setting up WireMock mappings.",
   "main": "dist/index.js",
   "typings": "definitions/index",
@@ -41,6 +41,7 @@
     "merge2": "^1.1.0",
     "nock": "^9.0.14",
     "run-sequence": "^2.1.0",
+    "standard-version": "^4.2.0",
     "tslint": "^5.5.0",
     "typescript": "^2.4.2"
   },
