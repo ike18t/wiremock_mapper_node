@@ -4,11 +4,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 <a name="0.0.2"></a>
 ## 0.0.2 (2017-08-01)
-
-
-
-<a name="0.0.1"></a>
-## 0.0.1 (2017-07-30)
+Implement create_global_mapping for setting mapping state for all future mappings.
 
 
 
