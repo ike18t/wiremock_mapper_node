@@ -8,7 +8,13 @@ export interface ResponseBuilder {
 }
 
 export class ResponseBuilderImpl implements ResponseBuilder {
-  private jsonObject: any = {};
+  protected jsonObject: any = {};
+
+  public clone() {
+    const clone = new ResponseBuilderImpl();
+    clone.jsonObject = {...this.jsonObject};
+    return clone;
+  }
 
   public toJSON = () => this.jsonObject;
 

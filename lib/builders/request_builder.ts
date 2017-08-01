@@ -20,8 +20,15 @@ export interface RequestBuilder {
 }
 
 export class RequestBuilderImpl implements RequestBuilder {
-  private options: any = {};
-  private urlMatchBuilder: UrlMatchBuilder = new UrlMatchBuilder(this);
+  protected options: any = {};
+  protected urlMatchBuilder: UrlMatchBuilder = new UrlMatchBuilder(this);
+
+  public clone() {
+    const clone = new RequestBuilderImpl();
+    clone.options = {...this.options};
+    clone.urlMatchBuilder = this.urlMatchBuilder;
+    return clone;
+  }
 
   public isADelete() {
     this.options.method = "DELETE";

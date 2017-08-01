@@ -107,7 +107,7 @@ describe("WireMockMapper", () => {
              .catch(done);
     });
 
-    xit("sends the global mappings", (done) => {
+    it("sends the global mappings", (done) => {
       Configuration.createGlobalMapping((request: RequestBuilder, respond: ResponseBuilder)  => {
         request.withHeader("some_header").equalTo("some header value");
       });
@@ -137,7 +137,7 @@ describe("WireMockMapper", () => {
              .catch(() => done.fail());
     });
 
-    xit("subsequent requests do not have state from first", (done) => {
+    it("subsequent requests do not have state from first", (done) => {
       const expectedRequestBody = {
         request: {
           bodyPatterns: [{ matches: "some request body" }],
@@ -151,7 +151,7 @@ describe("WireMockMapper", () => {
       const secondExpectedRequestBody = {
         request: {
           bodyPatterns: [{ matches: "some other request body" }],
-          headers: { some_header: { equalTo: "some other header value" } },
+          headers: { some_header: { equalTo: "some header value" } },
           method: "POST",
           urlPath: "/some/path"
         },
@@ -165,6 +165,10 @@ describe("WireMockMapper", () => {
       nock("http://localhost:8080", { reqheaders: { "Content-Type": "application/json" } })
         .post("/__admin/mappings", secondExpectedRequestBody)
         .reply(201, { id: 123 });
+
+      Configuration.createGlobalMapping((request: RequestBuilder, respond: ResponseBuilder)  => {
+        request.withHeader("some_header").equalTo("some header value");
+      });
 
       const promise1 = WireMockMapper.createMapping((request: RequestBuilder, respond: ResponseBuilder)  => {
         request.isAPost()

@@ -62,6 +62,7 @@ export class WireMockService {
       });
 
       request.on("error", reject);
+
       request.write(JSON.stringify(body));
       request.end();
     });

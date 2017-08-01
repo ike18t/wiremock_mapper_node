@@ -1,6 +1,4 @@
-// import { Configuration } from './configuration';
-import { RequestBuilderImpl } from "./builders/request_builder";
-import { ResponseBuilderImpl } from "./builders/response_builder";
+import { Configuration } from "./configuration";
 import { WireMockMapping } from "./wiremock_mapping";
 import { WireMockService } from "./wiremock_service";
 
@@ -10,11 +8,8 @@ export class WireMockMapper {
   }
 
   public static createMapping(wireMockMapping: WireMockMapping): Promise<string> {
-    // TODO: fix global mapping by deep cloning somehow
-    // const requestBuilder = Configuration.requestBuilder;
-    // const requestBuilder = Configuration.requestBuilder;
-    const requestBuilder = new RequestBuilderImpl();
-    const responseBuilder = new ResponseBuilderImpl();
+    const requestBuilder = Configuration.requestBuilder.clone();
+    const responseBuilder = Configuration.responseBuilder.clone();
 
     wireMockMapping(requestBuilder, responseBuilder);
     return new Promise<string>((resolve, reject) => {
