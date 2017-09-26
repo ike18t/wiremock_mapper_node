@@ -16,7 +16,7 @@
   "scripts": {
     "coverage": "gulp coverage",
     "lint": "gulp lint",
-    "release": "standard-version",
+    "release": "gulp lint && npm run test && gulp build && standard-version",
     "test": "gulp test"
   },
   "repository": {
