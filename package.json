@@ -3,6 +3,12 @@
   "version": "0.0.2",
   "description": "DSL for setting up WireMock mappings.",
   "main": "dist/index.js",
+  "files": [
+    "definitions",
+    "dist",
+    "LICENSE",
+    "README"
+  ],
   "typings": "definitions/index",
   "typescript": {
     "definition": "definitions/index"
