@@ -117,7 +117,7 @@ describe("RequestBuilderImpl", () => {
     it("should json stringify to { basicAuth: { username: value, password: value } }", () => {
       const builder = new RequestBuilderImpl();
       builder.withBasicAuth("ike", "1234");
-      const expectedJSON = JSON.stringify({ basicAuth: { username: "ike", password: "1234" } });
+      const expectedJSON = JSON.stringify({ basicAuthCredentials: { username: "ike", password: "1234" } });
       expect(JSON.stringify(builder)).toEqual(expectedJSON);
     });
 

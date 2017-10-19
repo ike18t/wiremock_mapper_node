@@ -27,16 +27,19 @@ export class WireMockService {
   public static async deleteFromWireMock(mappingId: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       const request = http.request({
-        hostname: Configuration.wireMockHost,
-        method: "DELETE",
-        path: [this.WIREMOCK_MAPPINGS_PATH, mappingId].join("/"),
-        port: Configuration.wireMockPort,
-      },                           (response) => {
-        if (response.statusCode !== 200) {
-          reject(new Error(`Unexpected Status Code: ${response.statusCode}`));
-        }
-        response.on("end", resolve);
-      });
+          hostname: Configuration.wireMockHost,
+          method: "DELETE",
+          path: [this.WIREMOCK_MAPPINGS_PATH, mappingId].join("/"),
+          port: Configuration.wireMockPort,
+        },                         (response) => {
+          if (response.statusCode !== 200) {
+            reject(new Error(`Unexpected Status Code: ${response.statusCode}`));
+          }
+
+          let data = "";
+          response.on("data", (chunk) => data += chunk);
+          response.on("end", resolve);
+        });
 
       request.on("error", reject);
       request.end();
@@ -58,7 +61,7 @@ export class WireMockService {
 
         let data = "";
         response.on("data", (chunk) => data += chunk);
-        response.on("end", () => resolve(data));
+        response.on("end", () => { resolve(data); });
       });
 
       request.on("error", reject);

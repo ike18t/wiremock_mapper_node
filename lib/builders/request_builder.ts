@@ -1,6 +1,23 @@
 import { MatchBuilder } from "../../lib/builders/match_builder";
 import { UrlMatchBuilder } from "../../lib/builders/url_match_builder";
 
+export interface Request {
+  basicAuthCredentials?: { password: string; username: string };
+  bodyPatterns?: MatchBuilder[];
+  cookies?: { [key: string]: MatchBuilder };
+  headers?: { [key: string]: MatchBuilder };
+  method?: string;
+  queryParameters?: { [key: string]: MatchBuilder };
+  urlMatchBuilder?: UrlMatchBuilder;
+}
+
+export interface RequestJSON extends Request {
+  url?: string;
+  urlPath?: string;
+  urlPathPattern?: string;
+  urlPattern?: string;
+}
+
 export interface RequestBuilder {
   isADelete(): RequestBuilder;
   isAGet(): RequestBuilder;
@@ -20,96 +37,96 @@ export interface RequestBuilder {
 }
 
 export class RequestBuilderImpl implements RequestBuilder {
-  protected options: any = {};
+  protected request: any = {};
   protected urlMatchBuilder: UrlMatchBuilder = new UrlMatchBuilder(this);
 
   public clone() {
     const clone = new RequestBuilderImpl();
-    clone.options = {...this.options};
+    clone.request = { ...this.request };
     clone.urlMatchBuilder = this.urlMatchBuilder;
     return clone;
   }
 
   public isADelete() {
-    this.options.method = "DELETE";
+    this.request.method = "DELETE";
     return this;
   }
 
   public isAGet() {
-    this.options.method = "GET";
+    this.request.method = "GET";
     return this;
   }
 
   public isAHead() {
-    this.options.method = "HEAD";
+    this.request.method = "HEAD";
     return this;
   }
 
   public isAnOptions() {
-    this.options.method = "OPTIONS";
+    this.request.method = "OPTIONS";
     return this;
   }
 
   public isAnyVerb() {
-    this.options.method = "ANY";
+    this.request.method = "ANY";
     return this;
   }
 
   public isAPost() {
-    this.options.method = "POST";
+    this.request.method = "POST";
     return this;
   }
 
   public isAPut() {
-    this.options.method = "PUT";
+    this.request.method = "PUT";
     return this;
   }
 
   public isATrace() {
-    this.options.method = "TRACE";
+    this.request.method = "TRACE";
     return this;
   }
 
-  public toJSON = () => ({ ...this.options, ...this.urlMatchBuilder.toJSON() });
+  public toJSON: () => RequestJSON = () => ({ ...this.request, ...this.urlMatchBuilder.toJSON() });
 
   public withBasicAuth(username: string, password: string): RequestBuilder {
-    this.options.basicAuth = { username, password };
+    this.request.basicAuthCredentials = { username, password };
     return this;
   }
 
   public withBody(): MatchBuilder {
-    if (!this.options.bodyPatterns) {
-      this.options.bodyPatterns = [];
+    if (!this.request.bodyPatterns) {
+      this.request.bodyPatterns = [];
     }
     const matchBuilder = new MatchBuilder(this);
-    this.options.bodyPatterns.push(matchBuilder);
+    this.request.bodyPatterns.push(matchBuilder);
     return matchBuilder;
   }
 
   public withCookie(key: string): MatchBuilder {
-    if (!this.options.cookies) {
-      this.options.cookies = {};
+    if (!this.request.cookies) {
+      this.request.cookies = {};
     }
     const matchBuilder = new MatchBuilder(this);
-    this.options.cookies[key] = matchBuilder;
+    this.request.cookies[key] = matchBuilder;
     return matchBuilder;
   }
 
   public withHeader(key: string): MatchBuilder {
-    if (!this.options.headers) {
-      this.options.headers = {};
+    if (!this.request.headers) {
+      this.request.headers = {};
     }
     const matchBuilder = new MatchBuilder(this);
-    this.options.headers[key] = matchBuilder;
+    this.request.headers[key] = matchBuilder;
     return matchBuilder;
   }
 
   public withQueryParam(key: string): MatchBuilder {
-    if (!this.options.queryParameters) {
-      this.options.queryParameters = {};
+    if (!this.request.queryParameters) {
+      this.request.queryParameters = {};
     }
     const matchBuilder = new MatchBuilder(this);
-    this.options.queryParameters[key] = matchBuilder;
+    this.request.queryParameters[key] = matchBuilder;
     return matchBuilder;
   }
 

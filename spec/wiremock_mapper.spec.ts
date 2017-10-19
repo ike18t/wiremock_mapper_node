@@ -192,11 +192,13 @@ describe("WireMockMapper", () => {
   });
 
   describe("deleteMapping", () => {
-    it("sends a DELETE request with the provided mapping id to wiremock", async () => {
+    it("sends a DELETE request with the provided mapping id to wiremock", (done) => {
       nock("http://localhost:8080")
         .delete("/__admin/mappings/123")
         .reply(200);
-      await WireMockMapper.deleteMapping("123");
+      const promise = WireMockMapper.deleteMapping("123");
+      promise.then(done)
+             .catch(() => { done.fail(); });
     });
 
     it("rejects the promise if the response is not a 200", (done) => {

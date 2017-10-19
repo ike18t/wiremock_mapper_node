@@ -1,3 +1,12 @@
+export interface Response {
+  body?: string;
+  fixedDelayMilliseconds?: number;
+  headers?: { [key: string]: string };
+  status?: number;
+  statusMessage?: string;
+  transformer?: string;
+}
+
 export interface ResponseBuilder {
   withBody(value: string): ResponseBuilder;
   withDelay(milliseconds: number): ResponseBuilder;
@@ -8,11 +17,11 @@ export interface ResponseBuilder {
 }
 
 export class ResponseBuilderImpl implements ResponseBuilder {
-  protected jsonObject: any = {};
+  protected jsonObject: Response = {};
 
   public clone() {
     const clone = new ResponseBuilderImpl();
-    clone.jsonObject = {...this.jsonObject};
+    clone.jsonObject = { ...this.jsonObject };
     return clone;
   }
 
@@ -29,7 +38,7 @@ export class ResponseBuilderImpl implements ResponseBuilder {
   }
 
   public withHeader(key: string, value: string): ResponseBuilder {
-    if (!this.jsonObject.headers) {
+    if (this.jsonObject.headers === undefined) {
       this.jsonObject.headers = {};
     }
     this.jsonObject.headers[key] = value;
