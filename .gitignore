@@ -56,5 +56,4 @@ typings/
 
 dist/
 definitions/
-
-tags
+.idea/
