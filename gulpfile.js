@@ -26,7 +26,10 @@ gulp.task('clean', function () {
 
 gulp.task('lint', function() {
   return gulp.src(['lib/**', 'spec/**'])
-    .pipe(tslint({ formatter: 'stylish' }))
+    .pipe(tslint({
+      formatter: 'stylish',
+      program: require('tslint').Linter.createProgram("./tsconfig.json")
+    }))
     .pipe(tslint.report());
 });
 
