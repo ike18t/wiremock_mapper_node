@@ -2,6 +2,9 @@ import { Configuration } from "../lib/configuration";
 
 describe("Configuration", () => {
   describe("createGlobalMapping", () => {
+    beforeEach(() => { Configuration.reset(); });
+    afterEach(() => { Configuration.reset(); });
+
     it("should set the request builder on configuration", () => {
       Configuration.createGlobalMapping((requestBuilder, responseBuilder) => {
         requestBuilder.withHeader("foo").equalTo("bar");

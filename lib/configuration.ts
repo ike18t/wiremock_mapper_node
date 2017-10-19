@@ -3,12 +3,26 @@ import { ResponseBuilderImpl } from "./builders/response_builder";
 import { WireMockMapping } from "./wiremock_mapping";
 
 export class Configuration {
-  public static readonly requestBuilder: RequestBuilderImpl = new RequestBuilderImpl();
-  public static readonly responseBuilder: ResponseBuilderImpl = new ResponseBuilderImpl();
+  public static get requestBuilder(): RequestBuilderImpl {
+    return Configuration.requestBuilderImpl;
+  }
+
+  public static get responseBuilder(): ResponseBuilderImpl {
+    return Configuration.responseBuilderImpl;
+  }
+
   public static wireMockHost = "localhost";
   public static wireMockPort = 8080;
 
   public static createGlobalMapping(wireMockMapping: WireMockMapping) {
     wireMockMapping(this.requestBuilder, this.responseBuilder);
   }
+
+  public static reset() {
+    Configuration.requestBuilderImpl = new RequestBuilderImpl();
+    Configuration.responseBuilderImpl = new ResponseBuilderImpl();
+  }
+
+  private static requestBuilderImpl: RequestBuilderImpl = new RequestBuilderImpl();
+  private static responseBuilderImpl: ResponseBuilderImpl = new ResponseBuilderImpl();
 }
