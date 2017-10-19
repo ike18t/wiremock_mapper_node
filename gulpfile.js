@@ -6,6 +6,7 @@ const clean = require('gulp-clean');
 const runSequence = require('run-sequence');
 const merge = require('merge2');
 const tslint = require('gulp-tslint');
+const linter = require('tslint').Linter;
 
 gulp.task('build', function() {
     const tsProject = ts.createProject('tsconfig.json');
@@ -26,7 +27,10 @@ gulp.task('clean', function () {
 
 gulp.task('lint', function() {
   return gulp.src(['lib/**', 'spec/**'])
-    .pipe(tslint({ formatter: 'stylish' }))
+    .pipe(tslint({
+      formatter: 'stylish',
+      program: linter.createProgram("./tsconfig.json")
+    }))
     .pipe(tslint.report());
 });
 

@@ -30,7 +30,7 @@ describe("WireMockMapper", () => {
       });
 
       promise.then(done)
-             .catch(() => done.fail());
+             .catch(() => { done.fail(); });
     });
 
     it("resolves the promise with the mapping id", (done) => {
@@ -57,7 +57,7 @@ describe("WireMockMapper", () => {
       });
 
       promise.then((id) => { expect(id).toEqual("123"); done(); })
-             .catch(() => done.fail());
+             .catch(() => { done.fail(); });
     });
 
     it("rejects the promise with an error if the status code is not 201", (done) => {
@@ -84,7 +84,7 @@ describe("WireMockMapper", () => {
         respond.withBody("some response body");
       });
 
-      promise.then(() => done.fail())
+      promise.then(() => { done.fail(); })
              .catch(done);
     });
 
@@ -103,7 +103,7 @@ describe("WireMockMapper", () => {
         respond.withBody("some response body");
       });
 
-      promise.then(() => done.fail())
+      promise.then(() => { done.fail(); })
              .catch(done);
     });
 
@@ -134,7 +134,7 @@ describe("WireMockMapper", () => {
       });
 
       promise.then(done)
-             .catch(() => done.fail());
+             .catch(() => { done.fail(); });
     });
 
     it("subsequent requests do not have state from first", (done) => {
@@ -187,16 +187,16 @@ describe("WireMockMapper", () => {
       });
 
       Promise.all([promise1, promise2]).then(done)
-                                       .catch(() => done.fail());
+                                       .catch(() => { done.fail(); });
     });
   });
 
   describe("deleteMapping", () => {
-    it("sends a DELETE request with the provided mapping id to wiremock", () => {
+    it("sends a DELETE request with the provided mapping id to wiremock", async () => {
       nock("http://localhost:8080")
         .delete("/__admin/mappings/123")
         .reply(200);
-      WireMockMapper.deleteMapping("123");
+      await WireMockMapper.deleteMapping("123");
     });
 
     it("rejects the promise if the response is not a 200", (done) => {
@@ -204,7 +204,7 @@ describe("WireMockMapper", () => {
         .delete("/__admin/mappings/123")
         .reply(404);
       const promise = WireMockMapper.deleteMapping("123");
-      promise.then(() => done.fail())
+      promise.then(() => { done.fail(); })
              .catch(done);
     });
 
@@ -213,7 +213,7 @@ describe("WireMockMapper", () => {
         .delete("/__admin/mappings/123")
         .replyWithError("something went wrong...sorry dude...");
       const promise = WireMockMapper.deleteMapping("123");
-      promise.then(() => done.fail())
+      promise.then(() => { done.fail(); })
              .catch(done);
     });
   });
@@ -225,7 +225,7 @@ describe("WireMockMapper", () => {
         .reply(200);
       const promise = WireMockMapper.clearAllMappings();
       promise.then(done)
-             .catch(() => done.fail());
+             .catch(() => { done.fail(); });
     });
 
     it("rejects the promise if the request returns the a status code that is not 200", (done) => {
@@ -233,7 +233,7 @@ describe("WireMockMapper", () => {
         .post("/__admin/mappings/reset")
         .reply(400);
       const promise = WireMockMapper.clearAllMappings();
-      promise.then(() => done.fail())
+      promise.then(() => { done.fail(); })
              .catch(done);
     });
 
@@ -242,7 +242,7 @@ describe("WireMockMapper", () => {
         .post("/__admin/mappings/reset")
         .replyWithError("something went wrong...sorry dude...");
       const promise = WireMockMapper.clearAllMappings();
-      promise.then(() => done.fail())
+      promise.then(() => { done.fail(); })
              .catch(done);
     });
   });
