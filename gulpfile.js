@@ -7,6 +7,7 @@ const runSequence = require('run-sequence');
 const merge = require('merge2');
 const tslint = require('gulp-tslint');
 const linter = require('tslint').Linter;
+const SpecReporter = require('jasmine-spec-reporter').SpecReporter;
 
 gulp.task('build', function() {
     const tsProject = ts.createProject('tsconfig.json');
@@ -42,7 +43,9 @@ gulp.task('pre-test', function () {
 
 gulp.task('test:run', ['pre-test'], function() {
   return gulp.src('dist/spec/**')
-    .pipe(jasmine())
+    .pipe(jasmine({
+      reporter: new SpecReporter()
+    }))
     .pipe(istanbul.writeReports({ reporters: ['lcov', 'html'] }))
     .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }));
 });
@@ -54,6 +57,11 @@ gulp.task('watch', ['default'], function() {
 gulp.task('test', [], function(cb) {
   runSequence('clean', 'lint', 'build', 'test:run', cb);
 });
+
+gulp.task('test:only', [], function(cb) {
+  runSequence('clean', 'build', 'test:run', cb);
+});
+
 gulp.task('default', [], function(cb) {
     runSequence('clean', 'build', cb);
 });
