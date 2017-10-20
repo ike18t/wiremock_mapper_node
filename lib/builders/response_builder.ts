@@ -8,7 +8,7 @@ export interface Response {
 }
 
 export interface ResponseBuilder {
-  withBody(value: string): ResponseBuilder;
+  withBody(value: string | object): ResponseBuilder;
   withDelay(milliseconds: number): ResponseBuilder;
   withHeader(key: string, value: string): ResponseBuilder;
   withStatus(statusCode: number): ResponseBuilder;
@@ -27,7 +27,10 @@ export class ResponseBuilderImpl implements ResponseBuilder {
 
   public toJSON = () => this.jsonObject;
 
-  public withBody(value: string): ResponseBuilder {
+  public withBody(value: string | object): ResponseBuilder {
+    if (typeof value === "object") {
+      value = JSON.stringify(value); // tslint:disable-line
+    }
     this.jsonObject.body = value;
     return this;
   }
