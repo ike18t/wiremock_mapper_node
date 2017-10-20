@@ -9,6 +9,14 @@ describe("ResponseBuilderImpl", () => {
       expect(JSON.stringify(builder)).toEqual(expectedJSON);
     });
 
+    it("json stringifies the body value: {\"body\":\"{\"a\":\"b\"}\"}", () => {
+      const responseObject = {a: "b"};
+      const builder = new ResponseBuilderImpl();
+      builder.withBody(responseObject);
+      const expectedJSON = JSON.stringify(builder);
+      expect(JSON.stringify(builder)).toEqual(expectedJSON);
+    });
+
     it("returns self for chaining", () => {
       const builder = new ResponseBuilderImpl();
       expect(builder.withBody("whatevs")).toEqual(builder);
