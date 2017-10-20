@@ -17,7 +17,8 @@
     "coverage": "gulp coverage",
     "lint": "gulp lint",
     "release": "gulp lint && npm run test && gulp build && standard-version",
-    "test": "gulp test"
+    "test": "gulp test",
+    "test:only": "gulp test:only"
   },
   "repository": {
     "type": "git",
@@ -44,6 +45,7 @@
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.2",
     "jasmine": "^2.8.0",
+    "jasmine-spec-reporter": "^4.2.1",
     "merge2": "^1.2.0",
     "nock": "^9.0.22",
     "run-sequence": "^2.2.0",
