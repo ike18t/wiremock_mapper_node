@@ -57,5 +57,6 @@ typings/
 dist/
 definitions/
 .idea/
+
 tags*
 tags
