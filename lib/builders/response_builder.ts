@@ -1,4 +1,4 @@
-export interface Response {
+export interface ResponseJSON {
   body?: string;
   fixedDelayMilliseconds?: number;
   headers?: { [key: string]: string };
@@ -17,7 +17,7 @@ export interface ResponseBuilder {
 }
 
 export class ResponseBuilderImpl implements ResponseBuilder {
-  protected jsonObject: Response = {};
+  protected jsonObject: ResponseJSON = {};
 
   public clone() {
     const clone = new ResponseBuilderImpl();

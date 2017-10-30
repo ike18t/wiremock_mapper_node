@@ -1,6 +1,7 @@
 import * as nock from "nock";
 import { RequestBuilder } from "../lib/builders/request_builder";
 import { ResponseBuilder } from "../lib/builders/response_builder";
+import { ScenarioBuilder } from "../lib/builders/scenario_builder";
 import { Configuration } from "../lib/configuration";
 import { WireMockMapper } from "../lib/wiremock_mapper";
 
@@ -27,6 +28,43 @@ describe("WireMockMapper", () => {
                .withBody().matching("some request body");
 
         respond.withBody("some response body");
+      });
+
+      promise.then(done)
+             .catch(() => { done.fail(); });
+    });
+
+    it("posts the correct json to wiremock with scenarios", (done) => {
+      const expectedRequestBody = {
+        newScenarioState: "some new scenario state",
+        request: {
+          bodyPatterns: [{ matches: "some request body" }],
+          headers: { some_header: { equalTo: "some header value" } },
+          method: "POST",
+          urlPath: "/some/path"
+        },
+        requiredScenarioState: "some scenario state",
+        response: { body: "some response body" },
+        scenarioName: "some scenario"
+      };
+
+      nock("http://localhost:8080", { reqheaders: { "Content-Type": "application/json" } })
+        .post("/__admin/mappings", expectedRequestBody)
+        .reply(201, { id: 123 });
+
+      const promise = WireMockMapper.createMapping((request: RequestBuilder,
+                                                    respond: ResponseBuilder,
+                                                    scenario: ScenarioBuilder)  => {
+        request.isAPost()
+               .withUrlPath().equalTo("/some/path")
+               .withHeader("some_header").equalTo("some header value")
+               .withBody().matching("some request body");
+
+        respond.withBody("some response body");
+
+        scenario.name("some scenario")
+                .requiredState("some scenario state")
+                .newState("some new scenario state");
       });
 
       promise.then(done)

@@ -1,4 +1,7 @@
 import * as http from "http";
+import { RequestBuilder } from "./builders/request_builder";
+import { ResponseBuilder } from "./builders/response_builder";
+import { ScenarioBuilder, ScenarioBuilderImpl } from "./builders/scenario_builder";
 import { Configuration } from "./configuration";
 
 export class WireMockService {
@@ -46,7 +49,9 @@ export class WireMockService {
     });
   }
 
-  public static async sendToWireMock(body: {}): Promise<string> {
+  public static async sendToWireMock(requestBuilder: RequestBuilder,
+                                     responseBuilder: ResponseBuilder,
+                                     scenarioBuilder: ScenarioBuilder): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       const request = http.request({
         headers: { "Content-Type": "application/json" },
@@ -66,7 +71,10 @@ export class WireMockService {
 
       request.on("error", reject);
 
-      request.write(JSON.stringify(body));
+      const wiremockRequest = { request: requestBuilder,
+                                response: responseBuilder,
+                                ...(scenarioBuilder as ScenarioBuilderImpl).toJSON() };
+      request.write(JSON.stringify(wiremockRequest));
       request.end();
     });
   }
