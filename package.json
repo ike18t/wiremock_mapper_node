@@ -52,8 +52,5 @@
     "standard-version": "^4.2.0",
     "tslint": "^5.7.0",
     "typescript": "^2.5.3"
-  },
-  "dependencies": {
-    "6": "0.0.1"
   }
 }
