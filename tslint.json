@@ -12,6 +12,8 @@
     "no-parameter-properties": false,
     "no-unsafe-any": false,
     "trailing-comma": false,
-    "typedef": false
+    "typedef": false,
+    "no-implicit-dependencies": [true, "dev"],
+    "no-unnecessary-class": ["allow-static-only"]
   }
 }

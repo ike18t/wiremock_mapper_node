@@ -1,14 +1,11 @@
 language: node_js
 node_js:
-  - "v6.11.1"
-  - "v7.10.1"
-  - "v8.0.0"
+  - "v6"
+  - "v7"
+  - "v8"
 env:
   - CODECLIMATE_REPO_TOKEN=7ba98aca9f50871c9d498b22b2f7f11cc780e4894a93127e843eecd6307588ba
 matrix:
-  allow_failures:
-    - node_js: "v6.11.1"
-    - node_js: "v7.10.1"
   notifications:
     email:
       recipients:
