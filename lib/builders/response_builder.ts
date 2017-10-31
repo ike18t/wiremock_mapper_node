@@ -2,15 +2,17 @@ export interface ResponseJSON {
   body?: string;
   fixedDelayMilliseconds?: number;
   headers?: { [key: string]: string };
+  jsonBody?: object;
   status?: number;
   statusMessage?: string;
   transformer?: string;
 }
 
 export interface ResponseBuilder {
-  withBody(value: string | object): ResponseBuilder;
+  withBody(value: string): ResponseBuilder;
   withDelay(milliseconds: number): ResponseBuilder;
   withHeader(key: string, value: string): ResponseBuilder;
+  withJsonBody(value: object): ResponseBuilder;
   withStatus(statusCode: number): ResponseBuilder;
   withStatusMessage(statusMessage: string): ResponseBuilder;
   withTransformer(transformerName: string): ResponseBuilder;
@@ -27,10 +29,7 @@ export class ResponseBuilderImpl implements ResponseBuilder {
 
   public toJSON = () => this.jsonObject;
 
-  public withBody(value: string | object): ResponseBuilder {
-    if (typeof value === "object") {
-      value = JSON.stringify(value); // tslint:disable-line
-    }
+  public withBody(value: string): ResponseBuilder {
     this.jsonObject.body = value;
     return this;
   }
@@ -45,6 +44,11 @@ export class ResponseBuilderImpl implements ResponseBuilder {
       this.jsonObject.headers = {};
     }
     this.jsonObject.headers[key] = value;
+    return this;
+  }
+
+  public withJsonBody(value: object): ResponseBuilder {
+    this.jsonObject.jsonBody = value;
     return this;
   }
 

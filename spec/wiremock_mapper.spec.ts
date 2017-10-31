@@ -7,7 +7,7 @@ import { WireMockMapper } from "../lib/wiremock_mapper";
 
 describe("WireMockMapper", () => {
   describe("createMapping", () => {
-    it("posts the correct json to wiremock", (done) => {
+    it("posts the correct json to wiremock with a string response", (done) => {
       const expectedRequestBody = {
         request: {
           bodyPatterns: [{ matches: "some request body" }],
@@ -28,6 +28,30 @@ describe("WireMockMapper", () => {
                .withBody().matching("some request body");
 
         respond.withBody("some response body");
+      });
+
+      promise.then(done)
+             .catch(() => { done.fail(); });
+    });
+
+    it("posts the correct json to wiremock with a json response", (done) => {
+      const expectedRequestBody = {
+        request: {
+          method: "GET",
+          urlPath: "/some/path"
+        },
+        response: { jsonBody: { test: "some response body" } }
+      };
+
+      nock("http://localhost:8080", { reqheaders: { "Content-Type": "application/json" } })
+        .post("/__admin/mappings", expectedRequestBody)
+        .reply(201, { id: 123 });
+
+      const promise = WireMockMapper.createMapping((request: RequestBuilder, respond: ResponseBuilder)  => {
+        request.isAGet()
+               .withUrlPath().equalTo("/some/path");
+
+        respond.withJsonBody({ test: "some response body" });
       });
 
       promise.then(done)

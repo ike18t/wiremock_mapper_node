@@ -1,19 +1,25 @@
 import { ResponseBuilderImpl } from "../../lib/builders/response_builder";
 
 describe("ResponseBuilderImpl", () => {
+  describe("withJsonBody", () => {
+    it("json stringifies to { jsonBody: json }", () => {
+      const builder = new ResponseBuilderImpl();
+      builder.withJsonBody({ foo: "bar" });
+      const expectedJSON = JSON.stringify({ jsonBody: { foo: "bar" } });
+      expect(JSON.stringify(builder)).toEqual(expectedJSON);
+    });
+
+    it("returns self for chaining", () => {
+      const builder = new ResponseBuilderImpl();
+      expect(builder.withJsonBody({ foo: "bar" })).toEqual(builder);
+    });
+  });
+
   describe("withBody", () => {
     it("json stringifies to { body: value }", () => {
       const builder = new ResponseBuilderImpl();
       builder.withBody("whatevs");
       const expectedJSON = JSON.stringify({ body: "whatevs" });
-      expect(JSON.stringify(builder)).toEqual(expectedJSON);
-    });
-
-    it("json stringifies the body value: {\"body\":\"{\"a\":\"b\"}\"}", () => {
-      const responseObject = {a: "b"};
-      const builder = new ResponseBuilderImpl();
-      builder.withBody(responseObject);
-      const expectedJSON = JSON.stringify(builder);
       expect(JSON.stringify(builder)).toEqual(expectedJSON);
     });
 
