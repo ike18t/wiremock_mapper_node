@@ -27,6 +27,9 @@ export class MatchBuilder {
 
   public equalToJson(json: any, ignoreArrayOrder: boolean = false, ignoreExtraElements: boolean = false) {
     this.matchType = "equalToJson";
+    if (typeof json === "object") {
+      json = JSON.stringify(json); // tslint:disable-line
+    }
     this.value = json;
 
     if (ignoreArrayOrder) {

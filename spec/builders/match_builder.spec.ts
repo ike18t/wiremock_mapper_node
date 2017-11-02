@@ -88,6 +88,24 @@ describe("MatchBuilder", () => {
       const builder = new MatchBuilder(requestBuilder);
       expect(builder.equalToJson("foo")).toEqual(requestBuilder);
     });
+
+    it("json stringifies the json argument if it is an object", () => {
+      const requestBuilder = new RequestBuilderImpl();
+      const builder = new MatchBuilder(requestBuilder);
+      builder.equalToJson({ foo: "bar" });
+
+      const expectedJSON = JSON.stringify({ equalToJson: JSON.stringify({ foo: "bar" }) });
+      expect(JSON.stringify(builder)).toEqual(expectedJSON);
+    });
+
+    it("does not json stringy the json argument if it is already a stringified", () => {
+      const requestBuilder = new RequestBuilderImpl();
+      const builder = new MatchBuilder(requestBuilder);
+      builder.equalToJson(JSON.stringify({ foo: "bar" }));
+
+      const expectedJSON = JSON.stringify({ equalToJson: JSON.stringify({ foo: "bar" }) });
+      expect(JSON.stringify(builder)).toEqual(expectedJSON);
+    });
   });
 
   describe("equalToXml", () => {
