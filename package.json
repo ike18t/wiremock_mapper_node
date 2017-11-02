@@ -1,6 +1,6 @@
 {
   "name": "wiremock-mapper",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "DSL for setting up WireMock mappings.",
   "main": "dist/index.js",
   "files": [
