@@ -7,7 +7,7 @@ export class MatchBuilder {
 
   constructor(private readonly requestBuilder: RequestBuilder) {}
 
-  public absent(): RequestBuilder {
+  get absent(): RequestBuilder {
     this.matchType = "absent";
     this.value = true;
     return this.requestBuilder;

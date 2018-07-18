@@ -19,21 +19,21 @@ export interface RequestJSON extends Request {
 }
 
 export interface RequestBuilder {
-  isADelete(): RequestBuilder;
-  isAGet(): RequestBuilder;
-  isAHead(): RequestBuilder;
-  isAnOptions(): RequestBuilder;
-  isAnyVerb(): RequestBuilder;
-  isAPost(): RequestBuilder;
-  isAPut(): RequestBuilder;
-  isATrace(): RequestBuilder;
+  isADelete: RequestBuilder;
+  isAGet: RequestBuilder;
+  isAHead: RequestBuilder;
+  isAnOptions: RequestBuilder;
+  isAnyVerb: RequestBuilder;
+  isAPost: RequestBuilder;
+  isAPut: RequestBuilder;
+  isATrace: RequestBuilder;
+  withBody: MatchBuilder;
+  withUrl: UrlMatchBuilder;
+  withUrlPath: UrlMatchBuilder;
   withBasicAuth(username: string, password: string): RequestBuilder;
-  withBody(): MatchBuilder;
   withCookie(key: string): MatchBuilder;
   withHeader(key: string): MatchBuilder;
   withQueryParam(key: string): MatchBuilder;
-  withUrl(): UrlMatchBuilder;
-  withUrlPath(): UrlMatchBuilder;
 }
 
 export class RequestBuilderImpl implements RequestBuilder {
@@ -47,42 +47,42 @@ export class RequestBuilderImpl implements RequestBuilder {
     return clone;
   }
 
-  public isADelete() {
+  get isADelete() {
     this.request.method = "DELETE";
     return this;
   }
 
-  public isAGet() {
+  get isAGet() {
     this.request.method = "GET";
     return this;
   }
 
-  public isAHead() {
+  get isAHead() {
     this.request.method = "HEAD";
     return this;
   }
 
-  public isAnOptions() {
+  get isAnOptions() {
     this.request.method = "OPTIONS";
     return this;
   }
 
-  public isAnyVerb() {
+  get isAnyVerb() {
     this.request.method = "ANY";
     return this;
   }
 
-  public isAPost() {
+  get isAPost() {
     this.request.method = "POST";
     return this;
   }
 
-  public isAPut() {
+  get isAPut() {
     this.request.method = "PUT";
     return this;
   }
 
-  public isATrace() {
+  get isATrace() {
     this.request.method = "TRACE";
     return this;
   }
@@ -94,7 +94,7 @@ export class RequestBuilderImpl implements RequestBuilder {
     return this;
   }
 
-  public withBody(): MatchBuilder {
+  get withBody(): MatchBuilder {
     if (!this.request.bodyPatterns) {
       this.request.bodyPatterns = [];
     }
@@ -130,12 +130,12 @@ export class RequestBuilderImpl implements RequestBuilder {
     return matchBuilder;
   }
 
-  public withUrl(): UrlMatchBuilder {
+  get withUrl(): UrlMatchBuilder {
     this.urlMatchBuilder = new UrlMatchBuilder(this);
     return this.urlMatchBuilder;
   }
 
-  public withUrlPath(): UrlMatchBuilder {
+  get withUrlPath(): UrlMatchBuilder {
     this.urlMatchBuilder = new UrlMatchBuilder(this, true);
     return this.urlMatchBuilder;
   }

@@ -5,7 +5,7 @@ describe("MatchBuilder", () => {
   describe("absent", () => {
     it("json stringifies to { absent: true }", () => {
       const builder = new MatchBuilder(new RequestBuilderImpl());
-      builder.absent();
+      builder.absent; // tslint:disable-line:no-unused-expression
 
       const expectedJSON = JSON.stringify({ absent: true });
       expect(JSON.stringify(builder)).toEqual(expectedJSON);
@@ -14,7 +14,7 @@ describe("MatchBuilder", () => {
     it("returns the constructor arg request builder for chaining", () => {
       const requestBuilder = new RequestBuilderImpl();
       const builder = new MatchBuilder(requestBuilder);
-      expect(builder.absent()).toEqual(requestBuilder);
+      expect(builder.absent).toEqual(requestBuilder);
     });
   });
 

@@ -22,10 +22,10 @@ describe("WireMockMapper", () => {
         .reply(201, { id: 123 });
 
       const promise = WireMockMapper.createMapping((request: RequestBuilder, respond: ResponseBuilder)  => {
-        request.isAPost()
-               .withUrlPath().equalTo("/some/path")
+        request.isAPost
+               .withUrlPath.equalTo("/some/path")
                .withHeader("some_header").equalTo("some header value")
-               .withBody().matching("some request body");
+               .withBody.matching("some request body");
 
         respond.withBody("some response body");
       });
@@ -48,8 +48,8 @@ describe("WireMockMapper", () => {
         .reply(201, { id: 123 });
 
       const promise = WireMockMapper.createMapping((request: RequestBuilder, respond: ResponseBuilder)  => {
-        request.isAGet()
-               .withUrlPath().equalTo("/some/path");
+        request.isAGet
+               .withUrlPath.equalTo("/some/path");
 
         respond.withJsonBody({ test: "some response body" });
       });
@@ -79,10 +79,10 @@ describe("WireMockMapper", () => {
       const promise = WireMockMapper.createMapping((request: RequestBuilder,
                                                     respond: ResponseBuilder,
                                                     scenario: ScenarioBuilder)  => {
-        request.isAPost()
-               .withUrlPath().equalTo("/some/path")
+        request.isAPost
+               .withUrlPath.equalTo("/some/path")
                .withHeader("some_header").equalTo("some header value")
-               .withBody().matching("some request body");
+               .withBody.matching("some request body");
 
         respond.withBody("some response body");
 
@@ -110,10 +110,10 @@ describe("WireMockMapper", () => {
         .reply(201, { id: "123" });
 
       const promise = WireMockMapper.createMapping((request: RequestBuilder, respond: ResponseBuilder)  => {
-        request.isAPost()
-               .withUrlPath().equalTo("/some/path")
+        request.isAPost
+               .withUrlPath.equalTo("/some/path")
                .withHeader("some_header").equalTo("some header value")
-               .withBody().matching("some request body");
+               .withBody.matching("some request body");
 
         respond.withBody("some response body");
       });
@@ -138,10 +138,10 @@ describe("WireMockMapper", () => {
         .reply(400);
 
       const promise = WireMockMapper.createMapping((request: RequestBuilder, respond: ResponseBuilder)  => {
-        request.isAPost()
-               .withUrlPath().equalTo("/some/path")
+        request.isAPost
+               .withUrlPath.equalTo("/some/path")
                .withHeader("some_header").equalTo("some header value")
-               .withBody().matching("some request body");
+               .withBody.matching("some request body");
 
         respond.withBody("some response body");
       });
@@ -159,8 +159,8 @@ describe("WireMockMapper", () => {
         .replyWithError("something went wrong...sorry dude...");
 
       const promise = WireMockMapper.createMapping((request: RequestBuilder, respond: ResponseBuilder)  => {
-        request.isAPost()
-               .withUrlPath().equalTo("/some/path");
+        request.isAPost
+               .withUrlPath.equalTo("/some/path");
 
         respond.withBody("some response body");
       });
@@ -188,9 +188,9 @@ describe("WireMockMapper", () => {
         .reply(201, { id: 123 });
 
       const promise = WireMockMapper.createMapping((request: RequestBuilder, respond: ResponseBuilder)  => {
-        request.isAPost()
-               .withUrlPath().equalTo("/some/path")
-               .withBody().matching("some request body");
+        request.isAPost
+               .withUrlPath.equalTo("/some/path")
+               .withBody.matching("some request body");
 
         respond.withBody("some response body");
       });
@@ -233,17 +233,17 @@ describe("WireMockMapper", () => {
       });
 
       const promise1 = WireMockMapper.createMapping((request: RequestBuilder, respond: ResponseBuilder)  => {
-        request.isAPost()
-               .withUrlPath().equalTo("/some/path")
-               .withBody().matching("some request body");
+        request.isAPost
+               .withUrlPath.equalTo("/some/path")
+               .withBody.matching("some request body");
 
         respond.withBody("some response body");
       });
 
       const promise2 = WireMockMapper.createMapping((request: RequestBuilder, respond: ResponseBuilder)  => {
-        request.isAPost()
-               .withUrlPath().equalTo("/some/path")
-               .withBody().matching("some other request body");
+        request.isAPost
+               .withUrlPath.equalTo("/some/path")
+               .withBody.matching("some other request body");
 
         respond.withBody("some other response body");
       });
