@@ -5,6 +5,8 @@ import { ScenarioBuilder } from './builders/scenario_builder';
 import { Configuration } from './configuration';
 import { WireMockMapper } from './wiremock_mapper';
 
+/* tslint:disable:no-unnecessary-callback-wrapper */
+
 describe('WireMockMapper', () => {
   describe('createMapping', () => {
     it('posts the correct json to wiremock with a string response', (done) => {
@@ -151,7 +153,7 @@ describe('WireMockMapper', () => {
       });
 
       promise.then(() => { done.fail(); })
-             .catch(done);
+             .catch(() => done());
     });
 
     it('rejects the promise if there was an error with the request', (done) => {
@@ -172,7 +174,7 @@ describe('WireMockMapper', () => {
       });
 
       promise.then(() => { done.fail(); })
-             .catch(done);
+             .catch(() => done());
     });
 
     it('sends the global mappings', (done) => {
@@ -275,7 +277,7 @@ describe('WireMockMapper', () => {
           .reply(404);
       const promise = WireMockMapper.deleteMapping('123');
       promise.then(() => { done.fail(); })
-             .catch(done);
+             .catch(() => done());
     });
 
     it('rejects the promise if there was an error with the request', (done) => {
@@ -284,7 +286,7 @@ describe('WireMockMapper', () => {
           .replyWithError('something went wrong...sorry dude...');
       const promise = WireMockMapper.deleteMapping('123');
       promise.then(() => { done.fail(); })
-             .catch(done);
+             .catch(() => done());
     });
   });
 
@@ -304,7 +306,7 @@ describe('WireMockMapper', () => {
           .reply(400);
       const promise = WireMockMapper.clearAllMappings();
       promise.then(() => { done.fail(); })
-             .catch(done);
+             .catch(() => done());
     });
 
     it('rejects the promise if there was an error with the request', (done) => {
@@ -313,7 +315,7 @@ describe('WireMockMapper', () => {
           .replyWithError('something went wrong...sorry dude...');
       const promise = WireMockMapper.clearAllMappings();
       promise.then(() => { done.fail(); })
-             .catch(done);
+             .catch(() => done());
     });
   });
 });
