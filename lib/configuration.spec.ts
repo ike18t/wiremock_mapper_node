@@ -6,7 +6,7 @@ describe('Configuration', () => {
     afterEach(() => { Configuration.reset(); });
 
     it('should set the request builder on configuration', () => {
-      Configuration.createGlobalMapping((requestBuilder, responseBuilder) => {
+      Configuration.createGlobalMapping((requestBuilder) => {
         requestBuilder.withHeader('foo').equalTo('bar');
       });
       const expectedJSON = JSON.stringify({ headers: { foo: { equalTo: 'bar' } } });
@@ -14,7 +14,7 @@ describe('Configuration', () => {
     });
 
     it('should set the response builder on configuration', () => {
-      Configuration.createGlobalMapping((requestBuilder, responseBuilder) => {
+      Configuration.createGlobalMapping((_, responseBuilder) => {
         responseBuilder.withDelay(500);
       });
       const expectedJSON = JSON.stringify({ fixedDelayMilliseconds: 500 });

@@ -1,7 +1,6 @@
 import * as nock from 'nock';
 import { RequestBuilder } from './builders/request_builder';
 import { ResponseBuilder } from './builders/response_builder';
-import { ScenarioBuilder } from './builders/scenario_builder';
 import { Configuration } from './configuration';
 import { WireMockMapper } from './wiremock_mapper';
 
@@ -78,9 +77,7 @@ describe('WireMockMapper', () => {
           .post('/__admin/mappings', expectedRequestBody)
           .reply(201, {id: 123});
 
-      const promise = WireMockMapper.createMapping((request: RequestBuilder,
-                                                    respond: ResponseBuilder,
-                                                    scenario: ScenarioBuilder) => {
+      const promise = WireMockMapper.createMapping((request, respond, scenario) => {
         request.isAPost
                .withUrlPath.equalTo('/some/path')
                .withHeader('some_header').equalTo('some header value')
@@ -178,7 +175,7 @@ describe('WireMockMapper', () => {
     });
 
     it('sends the global mappings', (done) => {
-      Configuration.createGlobalMapping((request: RequestBuilder, respond: ResponseBuilder) => {
+      Configuration.createGlobalMapping((request: RequestBuilder) => {
         request.withHeader('some_header').equalTo('some header value');
       });
       const expectedRequestBody = {
@@ -236,7 +233,7 @@ describe('WireMockMapper', () => {
           .post('/__admin/mappings', secondExpectedRequestBody)
           .reply(201, {id: 123});
 
-      Configuration.createGlobalMapping((request: RequestBuilder, respond: ResponseBuilder) => {
+      Configuration.createGlobalMapping((request: RequestBuilder) => {
         request.withHeader('some_header').equalTo('some header value');
       });
 

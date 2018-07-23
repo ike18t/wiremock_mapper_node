@@ -4,10 +4,12 @@
     "lib": ["es6", "dom"],
     "module": "commonjs",
     "target": "es5",
-    "noImplicitAny": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
+    "noErrorTruncation": true,
+    "noImplicitReturns": true,
     "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "sourceMap": true,
     "declaration": true,
     "rootDir": ".",
@@ -18,7 +20,7 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "strictNullChecks": true
+    "strict": true
   },
   "include": [
     "index.ts",

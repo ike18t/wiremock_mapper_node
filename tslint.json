@@ -3,9 +3,11 @@
   "rules": {
     "comment-format": false,
     "completed-docs": false,
+    "file-name-casing": false,
     "interface-name": false,
     "member-access": false,
     "newline-before-return": false,
+    "newline-per-chained-call": false,
     "no-any": false,
     "no-inferred-empty-object-type": false,
     "no-magic-numbers": false,
