@@ -1,4 +1,4 @@
-import { RequestBuilder } from "../../lib/builders/request_builder";
+import { RequestBuilder } from '../../lib/builders/request_builder';
 
 export class MatchBuilder {
   private matchType: string;
@@ -8,26 +8,26 @@ export class MatchBuilder {
   constructor(private readonly requestBuilder: RequestBuilder) {}
 
   get absent(): RequestBuilder {
-    this.matchType = "absent";
+    this.matchType = 'absent';
     this.value = true;
     return this.requestBuilder;
   }
 
   public containing(value: string): RequestBuilder {
-    this.matchType = "contains";
+    this.matchType = 'contains';
     this.value = value;
     return this.requestBuilder;
   }
 
   public equalTo(value: string): RequestBuilder {
-    this.matchType = "equalTo";
+    this.matchType = 'equalTo';
     this.value = value;
     return this.requestBuilder;
   }
 
   public equalToJson(json: any, ignoreArrayOrder: boolean = false, ignoreExtraElements: boolean = false) {
-    this.matchType = "equalToJson";
-    if (typeof json === "object") {
+    this.matchType = 'equalToJson';
+    if (typeof json === 'object') {
       json = JSON.stringify(json); // tslint:disable-line
     }
     this.value = json;
@@ -44,31 +44,31 @@ export class MatchBuilder {
   }
 
   public equalToXml(xml: string) {
-    this.matchType = "equalToXml";
+    this.matchType = 'equalToXml';
     this.value = xml;
     return this.requestBuilder;
   }
 
   public matching(value: string) {
-    this.matchType = "matches";
+    this.matchType = 'matches';
     this.value = value;
     return this.requestBuilder;
   }
 
   public matchingJsonPath(value: string) {
-    this.matchType = "matchesJsonPath";
+    this.matchType = 'matchesJsonPath';
     this.value = value;
     return this.requestBuilder;
   }
 
   public matchingXPath(xpath: string) {
-    this.matchType = "matchesXPath";
+    this.matchType = 'matchesXPath';
     this.value = xpath;
     return this.requestBuilder;
   }
 
   public notMatching(value: string) {
-    this.matchType = "doesNotMatch";
+    this.matchType = 'doesNotMatch';
     this.value = value;
     return this.requestBuilder;
   }

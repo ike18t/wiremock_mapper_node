@@ -1,15 +1,15 @@
-import * as http from "http";
-import { RequestBuilder } from "./builders/request_builder";
-import { ResponseBuilder } from "./builders/response_builder";
-import { ScenarioBuilder, ScenarioBuilderImpl } from "./builders/scenario_builder";
-import { Configuration } from "./configuration";
+import * as http from 'http';
+import { RequestBuilder } from './builders/request_builder';
+import { ResponseBuilder } from './builders/response_builder';
+import { ScenarioBuilder, ScenarioBuilderImpl } from './builders/scenario_builder';
+import { Configuration } from './configuration';
 
 export class WireMockService {
   public static async clearWireMockMappings(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       const request = http.request({
         hostname: Configuration.wireMockHost,
-        method: "POST",
+        method: 'POST',
         path: this.WIREMOCK_CLEAR_MAPPINGS_PATH,
         port: Configuration.wireMockPort,
       },                           (response) => {
@@ -17,12 +17,12 @@ export class WireMockService {
           reject(new Error(`Unexpected Status Code: ${response.statusCode}`));
         }
 
-        let data = "";
-        response.on("data", (chunk) => data += chunk);
-        response.on("end", resolve);
+        let data = '';
+        response.on('data', (chunk) => data += chunk);
+        response.on('end', resolve);
       });
 
-      request.on("error", reject);
+      request.on('error', reject);
       request.end();
     });
   }
@@ -31,20 +31,20 @@ export class WireMockService {
     return new Promise<void>((resolve, reject) => {
       const request = http.request({
           hostname: Configuration.wireMockHost,
-          method: "DELETE",
-          path: [this.WIREMOCK_MAPPINGS_PATH, mappingId].join("/"),
+          method: 'DELETE',
+          path: [this.WIREMOCK_MAPPINGS_PATH, mappingId].join('/'),
           port: Configuration.wireMockPort,
         },                         (response) => {
           if (response.statusCode !== 200) {
             reject(new Error(`Unexpected Status Code: ${response.statusCode}`));
           }
 
-          let data = "";
-          response.on("data", (chunk) => data += chunk);
-          response.on("end", resolve);
+          let data = '';
+          response.on('data', (chunk) => data += chunk);
+          response.on('end', resolve);
         });
 
-      request.on("error", reject);
+      request.on('error', reject);
       request.end();
     });
   }
@@ -54,9 +54,9 @@ export class WireMockService {
                                      scenarioBuilder: ScenarioBuilder): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       const request = http.request({
-        headers: { "Content-Type": "application/json" },
+        headers: { 'Content-Type': 'application/json' },
         hostname: Configuration.wireMockHost,
-        method: "POST",
+        method: 'POST',
         path: this.WIREMOCK_MAPPINGS_PATH,
         port: Configuration.wireMockPort,
       },                           (response) => {
@@ -64,12 +64,12 @@ export class WireMockService {
           reject(new Error(`Unexpected Status Code: ${response.statusCode}`));
         }
 
-        let data = "";
-        response.on("data", (chunk) => data += chunk);
-        response.on("end", () => { resolve(data); });
+        let data = '';
+        response.on('data', (chunk) => data += chunk);
+        response.on('end', () => { resolve(data); });
       });
 
-      request.on("error", reject);
+      request.on('error', reject);
 
       const wiremockRequest = { request: requestBuilder,
                                 response: responseBuilder,
@@ -79,6 +79,6 @@ export class WireMockService {
     });
   }
 
-  private static readonly WIREMOCK_CLEAR_MAPPINGS_PATH = "/__admin/mappings/reset";
-  private static readonly WIREMOCK_MAPPINGS_PATH = "/__admin/mappings";
+  private static readonly WIREMOCK_CLEAR_MAPPINGS_PATH = '/__admin/mappings/reset';
+  private static readonly WIREMOCK_MAPPINGS_PATH = '/__admin/mappings';
 }

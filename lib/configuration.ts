@@ -1,6 +1,6 @@
-import { RequestBuilderImpl } from "./builders/request_builder";
-import { ResponseBuilderImpl } from "./builders/response_builder";
-import { WireMockMapping } from "./wiremock_mapping";
+import { RequestBuilderImpl } from './builders/request_builder';
+import { ResponseBuilderImpl } from './builders/response_builder';
+import { WireMockMapping } from './wiremock_mapping';
 
 export class Configuration {
   public static get requestBuilder(): RequestBuilderImpl {
@@ -11,7 +11,7 @@ export class Configuration {
     return Configuration.responseBuilderImpl;
   }
 
-  public static wireMockHost = "localhost";
+  public static wireMockHost = 'localhost';
   public static wireMockPort = 8080;
 
   public static createGlobalMapping(wireMockMapping: WireMockMapping) {

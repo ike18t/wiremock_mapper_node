@@ -14,6 +14,7 @@
     "trailing-comma": false,
     "typedef": false,
     "no-implicit-dependencies": [true, "dev"],
-    "no-unnecessary-class": ["allow-static-only"]
+    "no-unnecessary-class": ["allow-static-only"],
+    "quotemark": [true, "single"]
   }
 }
