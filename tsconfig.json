@@ -15,7 +15,9 @@
     "allowSyntheticDefaultImports": true,
     "removeComments": true,
     "experimentalDecorators": true,
-    "types" : ["node", "jasmine"],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
     "strictNullChecks": true
   },
   "include": [
