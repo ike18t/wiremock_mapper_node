@@ -15,6 +15,7 @@
     "typedef": false,
     "no-implicit-dependencies": [true, "dev"],
     "no-unnecessary-class": ["allow-static-only"],
-    "quotemark": [true, "single"]
+    "quotemark": [true, "single"],
+    "no-void-expression": false
   }
 }
