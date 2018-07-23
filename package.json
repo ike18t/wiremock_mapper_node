@@ -16,7 +16,7 @@
     "lint": "tslint -c ./tslint.json -p ./tsconfig.json -t stylish",
     "release": "npm run lint && npm run test && npm run build && standard-version",
     "coverage": "npm test",
-    "test": "karma start"
+    "test": "jasmine-ts \"lib/**/*.spec.ts\""
   },
   "repository": {
     "type": "git",
@@ -32,17 +32,11 @@
   },
   "homepage": "https://github.com/ike18t/wiremock_mapper_node#readme",
   "devDependencies": {
-    "@types/jasmine": "^2.6.0",
+    "@types/jasmine": "^2.8.8",
     "@types/nock": "^8.2.1",
     "@types/node": "^8.0.45",
     "codeclimate-test-reporter": "^0.5.0",
     "jasmine-ts": "^0.2.1",
-    "karma": "^2.0.4",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-jasmine": "0.2.2",
-    "karma-jasmine-html-reporter": "0.2.2",
-    "karma-spec-reporter": "0.0.32",
-    "karma-typescript": "^3.0.13",
     "nock": "^9.0.22",
     "run-sequence": "^2.2.0",
     "standard-version": "^4.2.0",
