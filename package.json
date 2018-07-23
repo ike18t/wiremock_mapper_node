@@ -3,22 +3,20 @@
   "version": "0.2.1",
   "description": "DSL for setting up WireMock mappings.",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "definitions",
     "dist",
     "LICENSE",
     "README"
   ],
-  "typings": "definitions/index",
-  "typescript": {
-    "definition": "definitions/index"
-  },
   "scripts": {
-    "coverage": "gulp coverage",
-    "lint": "gulp lint",
-    "release": "gulp lint && npm run test && gulp build && standard-version",
-    "test": "gulp test",
-    "test:only": "gulp test:only"
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf dist",
+    "lint": "tslint -c ./tslint.json -p ./tsconfig.json -t stylish",
+    "release": "npm run lint && npm run test && npm run build && standard-version",
+    "coverage": "npm test",
+    "test": "karma start"
   },
   "repository": {
     "type": "git",
@@ -38,19 +36,19 @@
     "@types/nock": "^8.2.1",
     "@types/node": "^8.0.45",
     "codeclimate-test-reporter": "^0.5.0",
-    "gulp": "^3.9.1",
-    "gulp-clean": "^0.3.2",
-    "gulp-istanbul": "1.1.1",
-    "gulp-jasmine": "^2.4.2",
-    "gulp-tslint": "^8.1.2",
-    "gulp-typescript": "^3.2.2",
-    "jasmine": "^2.8.0",
-    "jasmine-spec-reporter": "^4.2.1",
-    "merge2": "^1.2.0",
+    "jasmine-ts": "^0.2.1",
+    "karma": "^2.0.4",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "0.2.2",
+    "karma-jasmine-html-reporter": "0.2.2",
+    "karma-spec-reporter": "0.0.32",
+    "karma-typescript": "^3.0.13",
     "nock": "^9.0.22",
     "run-sequence": "^2.2.0",
     "standard-version": "^4.2.0",
+    "ts-node": "^7.0.0",
     "tslint": "^5.7.0",
     "typescript": "^2.5.3"
-  }
+  },
+  "dependencies": {}
 }

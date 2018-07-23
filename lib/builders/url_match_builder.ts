@@ -1,4 +1,4 @@
-import { RequestBuilder } from "./request_builder";
+import { RequestBuilder } from './request_builder';
 
 export class UrlMatchBuilder {
 
@@ -7,13 +7,13 @@ export class UrlMatchBuilder {
   constructor(private readonly requestBuilder: RequestBuilder, private readonly path: boolean = false) {}
 
   public equalTo(url: string): RequestBuilder {
-    const urlType = this.path ? "urlPath" : "url";
+    const urlType = this.path ? 'urlPath' : 'url';
     this.jsonObject = { [urlType]: url };
     return this.requestBuilder;
   }
 
   public matching(regexp: string): RequestBuilder {
-    const urlType = this.path ? "urlPathPattern" : "urlPattern";
+    const urlType = this.path ? 'urlPathPattern' : 'urlPattern';
     this.jsonObject = { [urlType]: regexp };
     return this.requestBuilder;
   }

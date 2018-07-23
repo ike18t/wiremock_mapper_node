@@ -1,7 +1,7 @@
-import { ScenarioBuilder, ScenarioBuilderImpl } from "./builders/scenario_builder";
-import { Configuration } from "./configuration";
-import { WireMockMapping } from "./wiremock_mapping";
-import { WireMockService } from "./wiremock_service";
+import { ScenarioBuilder, ScenarioBuilderImpl } from './builders/scenario_builder';
+import { Configuration } from './configuration';
+import { WireMockMapping } from './wiremock_mapping';
+import { WireMockService } from './wiremock_service';
 
 export class WireMockMapper {
   public static async clearAllMappings(): Promise<void> {

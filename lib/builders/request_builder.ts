@@ -1,5 +1,5 @@
-import { MatchBuilder } from "../../lib/builders/match_builder";
-import { UrlMatchBuilder } from "../../lib/builders/url_match_builder";
+import { MatchBuilder } from '../../lib/builders/match_builder';
+import { UrlMatchBuilder } from '../../lib/builders/url_match_builder';
 
 export interface Request {
   basicAuthCredentials?: { password: string; username: string };
@@ -48,42 +48,42 @@ export class RequestBuilderImpl implements RequestBuilder {
   }
 
   get isADelete() {
-    this.request.method = "DELETE";
+    this.request.method = 'DELETE';
     return this;
   }
 
   get isAGet() {
-    this.request.method = "GET";
+    this.request.method = 'GET';
     return this;
   }
 
   get isAHead() {
-    this.request.method = "HEAD";
+    this.request.method = 'HEAD';
     return this;
   }
 
   get isAnOptions() {
-    this.request.method = "OPTIONS";
+    this.request.method = 'OPTIONS';
     return this;
   }
 
   get isAnyVerb() {
-    this.request.method = "ANY";
+    this.request.method = 'ANY';
     return this;
   }
 
   get isAPost() {
-    this.request.method = "POST";
+    this.request.method = 'POST';
     return this;
   }
 
   get isAPut() {
-    this.request.method = "PUT";
+    this.request.method = 'PUT';
     return this;
   }
 
   get isATrace() {
-    this.request.method = "TRACE";
+    this.request.method = 'TRACE';
     return this;
   }
 
