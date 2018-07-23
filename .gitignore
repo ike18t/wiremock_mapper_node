@@ -60,3 +60,5 @@ definitions/
 
 tags*
 tags
+
+.nyc_output
