@@ -7,21 +7,11 @@ import { Configuration } from './configuration';
 export class WireMockService {
   public static async clearWireMockMappings(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      const request = http.request({
-        hostname: Configuration.wireMockHost,
-        method: 'POST',
-        path: this.WIREMOCK_CLEAR_MAPPINGS_PATH,
-        port: Configuration.wireMockPort,
-      },                           (response) => {
-        if (response.statusCode !== 200) {
-          reject(new Error(`Unexpected Status Code: ${response.statusCode}`));
-        }
-
-        let data = '';
-        response.on('data', (chunk) => data += chunk);
-        response.on('end', resolve);
-      });
-
+      const request = http.request({ hostname: Configuration.wireMockHost,
+                                     method: 'POST',
+                                     path: this.WIREMOCK_CLEAR_MAPPINGS_PATH,
+                                     port: Configuration.wireMockPort },
+                                   WireMockService.responseHandler(resolve, reject));
       request.on('error', reject);
       request.end();
     });
@@ -29,21 +19,11 @@ export class WireMockService {
 
   public static async deleteFromWireMock(mappingId: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      const request = http.request({
-          hostname: Configuration.wireMockHost,
-          method: 'DELETE',
-          path: [this.WIREMOCK_MAPPINGS_PATH, mappingId].join('/'),
-          port: Configuration.wireMockPort,
-        },                         (response) => {
-          if (response.statusCode !== 200) {
-            reject(new Error(`Unexpected Status Code: ${response.statusCode}`));
-          }
-
-          let data = '';
-          response.on('data', (chunk) => data += chunk);
-          response.on('end', resolve);
-        });
-
+      const request = http.request({ hostname: Configuration.wireMockHost,
+                                     method: 'DELETE',
+                                     path: [this.WIREMOCK_MAPPINGS_PATH, mappingId].join('/'),
+                                     port: Configuration.wireMockPort },
+                                   WireMockService.responseHandler(resolve, reject));
       request.on('error', reject);
       request.end();
     });
@@ -53,22 +33,12 @@ export class WireMockService {
                                      responseBuilder: ResponseBuilder,
                                      scenarioBuilder: ScenarioBuilder): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      const request = http.request({
-        headers: { 'Content-Type': 'application/json' },
-        hostname: Configuration.wireMockHost,
-        method: 'POST',
-        path: this.WIREMOCK_MAPPINGS_PATH,
-        port: Configuration.wireMockPort,
-      },                           (response) => {
-        if (response.statusCode !== 201) {
-          reject(new Error(`Unexpected Status Code: ${response.statusCode}`));
-        }
-
-        let data = '';
-        response.on('data', (chunk) => data += chunk);
-        response.on('end', () => { resolve(data); });
-      });
-
+      const request = http.request({ headers: { 'Content-Type': 'application/json' },
+                                     hostname: Configuration.wireMockHost,
+                                     method: 'POST',
+                                     path: this.WIREMOCK_MAPPINGS_PATH,
+                                     port: Configuration.wireMockPort },
+                                   WireMockService.responseHandler(resolve, reject, 201));
       request.on('error', reject);
 
       const wiremockRequest = { request: requestBuilder,
@@ -81,4 +51,16 @@ export class WireMockService {
 
   private static readonly WIREMOCK_CLEAR_MAPPINGS_PATH = '/__admin/mappings/reset';
   private static readonly WIREMOCK_MAPPINGS_PATH = '/__admin/mappings';
+
+  private static responseHandler(resolve: any, reject: any, successStatusCode = 200) {
+    return (response: any) => {
+      if (response.statusCode !== successStatusCode) {
+        reject(new Error(`Unexpected Status Code: ${response.statusCode}`));
+      }
+
+      let data = '';
+      response.on('data', (chunk: string) => data += chunk);
+      response.on('end', () => resolve(data));
+    };
+  }
 }
