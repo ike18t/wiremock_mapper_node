@@ -54,9 +54,10 @@ typings/
 # dotenv environment variables file
 .env
 
-dist/
-definitions/
-.idea/
+dist
+.git
+.idea
+node_modules
 
 tags*
 tags
