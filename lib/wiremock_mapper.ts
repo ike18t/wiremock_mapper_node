@@ -16,7 +16,7 @@ export class WireMockMapper {
     wireMockMapping(requestBuilder, responseBuilder, scenarioBuilder);
     return new Promise<string>((resolve, reject) => {
       const response = WireMockService.sendToWireMock(requestBuilder, responseBuilder, scenarioBuilder);
-      response.then((data) => { resolve(JSON.parse(data).id); })
+      response.then((data) => { resolve((JSON.parse(data) as { id: string }).id); })
               .catch(reject) ;
     });
   }
