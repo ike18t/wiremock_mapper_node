@@ -18,14 +18,8 @@
     "allowSyntheticDefaultImports": true,
     "removeComments": true,
     "experimentalDecorators": true,
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
+    "typeRoots": ["./node_modules/@types"],
     "strict": true
   },
-  "include": [
-    "index.ts",
-    "lib/**/*",
-    "spec/**/*"
-  ]
+  "include": ["index.ts", "lib/**/*", "spec/**/*"]
 }

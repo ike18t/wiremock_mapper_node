@@ -23,6 +23,8 @@ export class Configuration {
     Configuration.responseBuilderImpl = new ResponseBuilderImpl();
   }
 
-  private static requestBuilderImpl: RequestBuilderImpl = new RequestBuilderImpl();
-  private static responseBuilderImpl: ResponseBuilderImpl = new ResponseBuilderImpl();
+  private static requestBuilderImpl: RequestBuilderImpl =
+    new RequestBuilderImpl();
+  private static responseBuilderImpl: ResponseBuilderImpl =
+    new ResponseBuilderImpl();
 }

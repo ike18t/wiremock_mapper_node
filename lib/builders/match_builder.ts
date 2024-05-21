@@ -30,7 +30,11 @@ export class MatchBuilder {
     return this.requestBuilder;
   }
 
-  public equalToJson(json: object | string, ignoreArrayOrder: boolean = false, ignoreExtraElements: boolean = false) {
+  public equalToJson(
+    json: object | string,
+    ignoreArrayOrder: boolean = false,
+    ignoreExtraElements: boolean = false
+  ) {
     this.matchType = 'equalToJson';
     if (typeof json === 'object') {
       json = JSON.stringify(json); // tslint:disable-line

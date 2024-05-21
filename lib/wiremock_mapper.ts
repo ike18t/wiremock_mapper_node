@@ -1,4 +1,7 @@
-import { ScenarioBuilder, ScenarioBuilderImpl } from './builders/scenario_builder';
+import {
+  ScenarioBuilder,
+  ScenarioBuilderImpl
+} from './builders/scenario_builder';
 import { Configuration } from './configuration';
 import { WireMockMapping } from './wiremock_mapping';
 import { WireMockService } from './wiremock_service';
@@ -8,16 +11,25 @@ export class WireMockMapper {
     return WireMockService.clearWireMockMappings();
   }
 
-  public static async createMapping(wireMockMapping: WireMockMapping): Promise<string> {
+  public static async createMapping(
+    wireMockMapping: WireMockMapping
+  ): Promise<string> {
     const requestBuilder = Configuration.requestBuilder.clone();
     const responseBuilder = Configuration.responseBuilder.clone();
     const scenarioBuilder: ScenarioBuilder = new ScenarioBuilderImpl();
 
     wireMockMapping(requestBuilder, responseBuilder, scenarioBuilder);
     return new Promise<string>((resolve, reject) => {
-      const response = WireMockService.sendToWireMock(requestBuilder, responseBuilder, scenarioBuilder);
-      response.then((data) => { resolve((JSON.parse(data) as { id: string }).id); })
-              .catch(reject) ;
+      const response = WireMockService.sendToWireMock(
+        requestBuilder,
+        responseBuilder,
+        scenarioBuilder
+      );
+      response
+        .then((data) => {
+          resolve((JSON.parse(data) as { id: string }).id);
+        })
+        .catch(reject);
     });
   }
 
