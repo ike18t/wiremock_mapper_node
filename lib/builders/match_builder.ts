@@ -1,8 +1,13 @@
 import { RequestBuilder } from '../../lib/builders/request_builder';
 
+interface Options {
+  ignoreArrayOrder: boolean;
+  ignoreExtraElements: boolean;
+}
+
 export class MatchBuilder {
   private matchType = '';
-  private readonly options: any = {};
+  private readonly options: Partial<Options> = {};
   private value?: string | boolean;
 
   constructor(private readonly requestBuilder: RequestBuilder) {}
@@ -25,7 +30,7 @@ export class MatchBuilder {
     return this.requestBuilder;
   }
 
-  public equalToJson(json: any, ignoreArrayOrder: boolean = false, ignoreExtraElements: boolean = false) {
+  public equalToJson(json: object | string, ignoreArrayOrder: boolean = false, ignoreExtraElements: boolean = false) {
     this.matchType = 'equalToJson';
     if (typeof json === 'object') {
       json = JSON.stringify(json); // tslint:disable-line

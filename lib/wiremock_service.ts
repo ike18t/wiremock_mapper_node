@@ -11,8 +11,7 @@ export class WireMockService {
                                      method: 'POST',
                                      path: this.WIREMOCK_CLEAR_MAPPINGS_PATH,
                                      port: Configuration.wireMockPort },
-                                   WireMockService.responseHandler(
-                                     (_: unknown) => { resolve(); }, reject)
+                                   WireMockService.responseHandler(() => { resolve(); }, reject)
                                   );
       request.on('error', reject);
       request.end();
@@ -25,8 +24,7 @@ export class WireMockService {
                                      method: 'DELETE',
                                      path: [this.WIREMOCK_MAPPINGS_PATH, mappingId].join('/'),
                                      port: Configuration.wireMockPort },
-                                   WireMockService.responseHandler(
-                                     (_: unknown) => { resolve(); }, reject)
+                                   WireMockService.responseHandler(() => { resolve(); }, reject)
                                   );
       request.on('error', reject);
       request.end();
@@ -56,8 +54,11 @@ export class WireMockService {
   private static readonly WIREMOCK_CLEAR_MAPPINGS_PATH = '/__admin/mappings/reset';
   private static readonly WIREMOCK_MAPPINGS_PATH = '/__admin/mappings';
 
-  private static responseHandler(resolve: any, reject: any, successStatusCode = 200) {
-    return (response: any) => {
+  private static responseHandler(
+    resolve: (value: string) => void,
+    reject: (reason?: unknown) => void,
+    successStatusCode = 200) {
+    return (response: http.IncomingMessage) => {
       if (response.statusCode !== successStatusCode) {
         reject(new Error(`Unexpected Status Code: ${response.statusCode}`));
       }

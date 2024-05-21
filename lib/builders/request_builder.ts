@@ -37,7 +37,7 @@ export interface RequestBuilder {
 }
 
 export class RequestBuilderImpl implements RequestBuilder {
-  protected request: any = {};
+  protected request: Partial<Request> = {};
   protected urlMatchBuilder: UrlMatchBuilder = new UrlMatchBuilder(this);
 
   public clone() {
