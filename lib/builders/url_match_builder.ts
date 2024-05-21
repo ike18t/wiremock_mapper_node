@@ -1,10 +1,12 @@
 import { RequestBuilder } from './request_builder';
 
 export class UrlMatchBuilder {
-
   private jsonObject = {};
 
-  constructor(private readonly requestBuilder: RequestBuilder, private readonly path: boolean = false) {}
+  constructor(
+    private readonly requestBuilder: RequestBuilder,
+    private readonly path: boolean = false
+  ) {}
 
   public equalTo(url: string): RequestBuilder {
     const urlType = this.path ? 'urlPath' : 'url';

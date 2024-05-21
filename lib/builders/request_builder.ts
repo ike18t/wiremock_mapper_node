@@ -87,7 +87,10 @@ export class RequestBuilderImpl implements RequestBuilder {
     return this;
   }
 
-  public toJSON: () => RequestJSON = () => ({ ...this.request, ...this.urlMatchBuilder.toJSON() });
+  public toJSON: () => RequestJSON = () => ({
+    ...this.request,
+    ...this.urlMatchBuilder.toJSON()
+  });
 
   public withBasicAuth(username: string, password: string): RequestBuilder {
     this.request.basicAuthCredentials = { username, password };

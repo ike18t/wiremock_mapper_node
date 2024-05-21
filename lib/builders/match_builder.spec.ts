@@ -63,7 +63,10 @@ describe('MatchBuilder', () => {
       const builder = new MatchBuilder(new RequestBuilderImpl());
       builder.equalToJson('foo', true);
 
-      const expectedJSON = JSON.stringify({ equalToJson: 'foo', ignoreArrayOrder: true });
+      const expectedJSON = JSON.stringify({
+        equalToJson: 'foo',
+        ignoreArrayOrder: true
+      });
       expect(JSON.stringify(builder)).toEqual(expectedJSON);
     });
 
@@ -71,7 +74,10 @@ describe('MatchBuilder', () => {
       const builder = new MatchBuilder(new RequestBuilderImpl());
       builder.equalToJson('foo', false, true);
 
-      const expectedJSON = JSON.stringify({ equalToJson: 'foo', ignoreExtraElements: true });
+      const expectedJSON = JSON.stringify({
+        equalToJson: 'foo',
+        ignoreExtraElements: true
+      });
       expect(JSON.stringify(builder)).toEqual(expectedJSON);
     });
 
@@ -79,7 +85,11 @@ describe('MatchBuilder', () => {
       const builder = new MatchBuilder(new RequestBuilderImpl());
       builder.equalToJson('foo', true, true);
 
-      const expectedJSON = JSON.stringify({ equalToJson: 'foo', ignoreArrayOrder: true, ignoreExtraElements: true });
+      const expectedJSON = JSON.stringify({
+        equalToJson: 'foo',
+        ignoreArrayOrder: true,
+        ignoreExtraElements: true
+      });
       expect(JSON.stringify(builder)).toEqual(expectedJSON);
     });
 
@@ -94,7 +104,9 @@ describe('MatchBuilder', () => {
       const builder = new MatchBuilder(requestBuilder);
       builder.equalToJson({ foo: 'bar' });
 
-      const expectedJSON = JSON.stringify({ equalToJson: JSON.stringify({ foo: 'bar' }) });
+      const expectedJSON = JSON.stringify({
+        equalToJson: JSON.stringify({ foo: 'bar' })
+      });
       expect(JSON.stringify(builder)).toEqual(expectedJSON);
     });
 
@@ -103,7 +115,9 @@ describe('MatchBuilder', () => {
       const builder = new MatchBuilder(requestBuilder);
       builder.equalToJson(JSON.stringify({ foo: 'bar' }));
 
-      const expectedJSON = JSON.stringify({ equalToJson: JSON.stringify({ foo: 'bar' }) });
+      const expectedJSON = JSON.stringify({
+        equalToJson: JSON.stringify({ foo: 'bar' })
+      });
       expect(JSON.stringify(builder)).toEqual(expectedJSON);
     });
   });

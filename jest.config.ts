@@ -1,12 +1,7 @@
 module.exports = {
-  moduleFileExtensions: [
-    'ts',
-    'js',
-  ],
+  moduleFileExtensions: ['ts', 'js'],
   restoreMocks: true,
-  roots: [
-    '<rootDir>/lib'
-  ],
+  roots: ['<rootDir>/lib'],
   setupFiles: [],
   testRegex: '(.*\\.spec)\\.ts$',
   transform: {

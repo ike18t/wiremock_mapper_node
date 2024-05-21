@@ -3,8 +3,8 @@ import { UrlMatchBuilder } from './url_match_builder';
 
 describe('UrlMatchBuilder', () => {
   describe('constructed with path = true', () => {
-    describe('equalTo', ()  => {
-      it('json stringifies to { urlPath: value }', ()  => {
+    describe('equalTo', () => {
+      it('json stringifies to { urlPath: value }', () => {
         const builder = new UrlMatchBuilder(new RequestBuilderImpl(), true);
         builder.equalTo('/some/path');
 
@@ -19,8 +19,8 @@ describe('UrlMatchBuilder', () => {
       });
     });
 
-    describe('matching', ()  => {
-      it('json stringifies to { urlPattern: value }', ()  => {
+    describe('matching', () => {
+      it('json stringifies to { urlPattern: value }', () => {
         const builder = new UrlMatchBuilder(new RequestBuilderImpl(), true);
         builder.matching('/some/path');
 
@@ -37,8 +37,8 @@ describe('UrlMatchBuilder', () => {
   });
 
   describe('constructed with path = false', () => {
-    describe('equalTo', ()  => {
-      it('json stringifies to { url: value }', ()  => {
+    describe('equalTo', () => {
+      it('json stringifies to { url: value }', () => {
         const builder = new UrlMatchBuilder(new RequestBuilderImpl(), false);
         builder.equalTo('/some/path');
 
@@ -47,8 +47,8 @@ describe('UrlMatchBuilder', () => {
       });
     });
 
-    describe('matching', ()  => {
-      it('json stringifies to { urlPattern: value }', ()  => {
+    describe('matching', () => {
+      it('json stringifies to { urlPattern: value }', () => {
         const builder = new UrlMatchBuilder(new RequestBuilderImpl(), false);
         builder.matching('/some/path');
 
