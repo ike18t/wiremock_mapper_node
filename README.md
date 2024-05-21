@@ -4,9 +4,11 @@
 [![npm version](https://badge.fury.io/js/wiremock-mapper.svg)](https://badge.fury.io/js/wiremock-mapper)
 
 # wiremock-mapper
+
 DSL for setting up WireMock mappings
 
 # Installation
+
 ```bash
 npm install wiremock-mapper
 ```
@@ -14,13 +16,15 @@ npm install wiremock-mapper
 ## Create a mapping
 
 Import the library
+
 ```typescript
 import { WireMockMapper } from 'wiremock-mapper';
 ```
 
 Mappings are created with `WireMockMapper.createMapping()` which takes a function argument defining the mock behavior. It asyncronously sends the configuration to the WireMock server.
+
 ```typescript
-await WireMockMapper.createMapping((req, res) => { });
+await WireMockMapper.createMapping((req, res) => {});
 ```
 
 ### Define matching parameters
@@ -28,17 +32,19 @@ await WireMockMapper.createMapping((req, res) => { });
 All request modifiers are set from `res` provided by `createMapping`, and return an instance of `RequestBuilder`, `MatchBuilder`, or `UrlMatchBuilder`. These can be chained together to form a complete request expectation.
 
 It should read like a sentence when set up properly.
+
 ```typescript
 await WireMockMapper.createMapping((req, res) => {
-  req.isAGet().withUrlPath().matching('/my/.*/path');
+  req.isAGet.withUrlPath.matching('/my/.*/path');
 });
 ```
 
 #### Interfaces
+
 `RequestBuilder`
 
 | Method           | Argument(s)                          | Effect                                  | Returns           |
-|------------------|--------------------------------------|-----------------------------------------|-------------------|
+| ---------------- | ------------------------------------ | --------------------------------------- | ----------------- |
 | `isAGet`         | none                                 | sets request method to `GET`            | `RequestBuilder`  |
 | `isAPost`        | none                                 | sets request method to `POST`           | `RequestBuilder`  |
 | `isAPut`         | none                                 | sets request method to `PUT`            | `RequestBuilder`  |
@@ -49,8 +55,8 @@ await WireMockMapper.createMapping((req, res) => {
 | `isAnyVerb`      | none                                 | sets request method to `ANY`            | `RequestBuilder`  |
 | `withBody`       | none                                 | sets request body                       | `RequestBuilder`  |
 | `withBasicAuth`  | `username: string, password: string` | sets basic auth                         | `RequestBuilder`  |
-| `withUrl`        | `url: string`                        | sets expected URL                       | `UrlMatchBuilder` |
-| `withUrlPath`    | `urlPath: string`                    | sets URL path match to `urlPathPattern` | `UrlMatchBuilder` |
+| `withUrl`        | none                                 | sets expected URL                       | `UrlMatchBuilder` |
+| `withUrlPath`    | none                                 | sets URL path match to `urlPathPattern` | `UrlMatchBuilder` |
 | `withCookie`     | `key: string`                        | sets request cookie                     | `MatchBuilder`    |
 | `withHeader`     | `key: string`                        | sets request header                     | `MatchBuilder`    |
 | `withQueryParam` | `key: string`                        | sets request query parameter            | `MatchBuilder`    |
@@ -58,14 +64,14 @@ await WireMockMapper.createMapping((req, res) => {
 `UrlMatchBuilder`
 
 | Method     | Arguments        | Effect                          | Returns          |
-|------------|------------------|---------------------------------|------------------|
+| ---------- | ---------------- | ------------------------------- | ---------------- |
 | `equalTo`  | `url: string`    | Matches text given              | `RequestBuilder` |
 | `matching` | `regexp: string` | Matches with regular expression | `RequestBuilder` |
 
 `MatchBuilder`
 
 | Method             | Argument(s)                                                          | Returns          |
-|--------------------|----------------------------------------------------------------------|------------------|
+| ------------------ | -------------------------------------------------------------------- | ---------------- |
 | `absent`           | none                                                                 | `RequestBuilder` |
 | `containing`       | `value: string`                                                      | `RequestBuilder` |
 | `equalTo`          | `value: string`                                                      | `RequestBuilder` |
@@ -82,12 +88,13 @@ Responses are created from `res` provided by `WireMockMapper.createMapping()`
 
 ```typescript
 await WireMockMapper.createMapping((req, res) => {
-  res.withJsonBody({
-    someKey: 'theValue',
-    otherKey: 'otherValue'
-  })
-  .withStatus(200)
-  .withStatusMessage('ok');
+  res
+    .withJsonBody({
+      someKey: 'theValue',
+      otherKey: 'otherValue'
+    })
+    .withStatus(200)
+    .withStatusMessage('ok');
 });
 ```
 
@@ -96,7 +103,7 @@ await WireMockMapper.createMapping((req, res) => {
 `ResponseBuilder`
 
 | Method              | Argument(s)               | Returns           |
-|---------------------|---------------------------|-------------------|
+| ------------------- | ------------------------- | ----------------- |
 | `withBody`          | `value: string`           | `ResponseBuilder` |
 | `withDelay`         | `milliseconds: number`    | `ResponseBuilder` |
 | `withHeader`        | `key: string`             | `ResponseBuilder` |
@@ -109,12 +116,13 @@ await WireMockMapper.createMapping((req, res) => {
 
 ```typescript
 await WireMockMapper.createMapping((req, res) => {
-  req.isAGet().withUrlPath().equalTo('/my/api/path');
-  res.withJsonBody({
-    someKey: 'theValue',
-    otherKey: 'otherValue'
-  })
-  .withStatus(200)
-  .withStatusMessage('ok');
+  req.isAGet.withUrlPath.equalTo('/my/api/path');
+  res
+    .withJsonBody({
+      someKey: 'theValue',
+      otherKey: 'otherValue'
+    })
+    .withStatus(200)
+    .withStatusMessage('ok');
 });
 ```
