@@ -11,7 +11,9 @@ export class WireMockService {
                                      method: 'POST',
                                      path: this.WIREMOCK_CLEAR_MAPPINGS_PATH,
                                      port: Configuration.wireMockPort },
-                                   WireMockService.responseHandler(resolve, reject));
+                                   WireMockService.responseHandler(
+                                     (_: unknown) => { resolve(); }, reject)
+                                  );
       request.on('error', reject);
       request.end();
     });
@@ -23,7 +25,9 @@ export class WireMockService {
                                      method: 'DELETE',
                                      path: [this.WIREMOCK_MAPPINGS_PATH, mappingId].join('/'),
                                      port: Configuration.wireMockPort },
-                                   WireMockService.responseHandler(resolve, reject));
+                                   WireMockService.responseHandler(
+                                     (_: unknown) => { resolve(); }, reject)
+                                  );
       request.on('error', reject);
       request.end();
     });
