@@ -141,4 +141,4 @@ Get all requests for a given stub id
 await WireMockMapper.getRequests({ stubId: 'some_stub_id' });
 ```
 
-The interface for the returned object can be found [here](https://github.com/ike18t/wiremock_mapper_node/blob/master/lib/request_response.ts#L1-L7).
+The interface for the returned object can be found [here](https://github.com/ike18t/wiremock_mapper_node/blob/master/lib/requests_response.ts#L1-L7).
