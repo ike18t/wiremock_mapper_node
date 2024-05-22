@@ -4,7 +4,8 @@ import {
 } from './builders/scenario_builder';
 import { Configuration } from './configuration';
 import { WireMockMapping } from './wiremock_mapping';
-import { WireMockService } from './wiremock_service';
+import { GetRequestOptions, WireMockService } from './wiremock_service';
+import { RequestsResponse } from './requests_response';
 
 export class WireMockMapper {
   public static async clearAllMappings(): Promise<void> {
@@ -33,7 +34,20 @@ export class WireMockMapper {
     });
   }
 
-  public static async deleteMapping(mappingId: string): Promise<void> {
-    return WireMockService.deleteFromWireMock(mappingId);
+  public static async deleteMapping(stubId: string): Promise<void> {
+    return WireMockService.deleteFromWireMock(stubId);
+  }
+
+  public static async getRequests(
+    getRequestOptions?: GetRequestOptions
+  ): Promise<RequestsResponse> {
+    return new Promise<RequestsResponse>((resolve, reject) => {
+      const response = WireMockService.getRequests(getRequestOptions);
+      response
+        .then((data) => {
+          resolve(JSON.parse(data) as RequestsResponse);
+        })
+        .catch(reject);
+    });
   }
 }
