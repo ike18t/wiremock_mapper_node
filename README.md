@@ -126,3 +126,19 @@ await WireMockMapper.createMapping((req, res) => {
     .withStatusMessage('ok');
 });
 ```
+
+## Get Requests Received
+
+Get all requests
+
+```typescript
+await WireMockMapper.getRequests();
+```
+
+Get all requests for a given stub id
+
+```typescript
+await WireMockMapper.getRequests({ stubId: 'some_stub_id' });
+```
+
+The interface for the returned object can be found [here](https://github.com/ike18t/wiremock_mapper_node/blob/master/lib/request_response.ts#L1-L7).

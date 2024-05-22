@@ -5,8 +5,6 @@ import { ResponseBuilder } from './builders/response_builder';
 import { Configuration } from './configuration';
 import { WireMockMapper } from './wiremock_mapper';
 
-/* tslint:disable:no-unnecessary-callback-wrapper */
-
 describe('WireMockMapper', () => {
   describe('createMapping', () => {
     it('posts the correct json to wiremock with a string response', async () => {
@@ -329,7 +327,7 @@ describe('WireMockMapper', () => {
       await expect(promise).resolves.toBeUndefined();
     });
 
-    it('rejects the promise if the request returns the a status code that is not 200', async () => {
+    it('rejects the promise if the request returns a status code that is not 200', async () => {
       nock('http://localhost:8080').post('/__admin/mappings/reset').reply(400);
 
       const promise = WireMockMapper.clearAllMappings();
@@ -343,6 +341,57 @@ describe('WireMockMapper', () => {
         .replyWithError('something went wrong...sorry dude...');
 
       const promise = WireMockMapper.clearAllMappings();
+
+      await expect(promise).rejects.toThrow();
+    });
+  });
+
+  describe('getRequests', () => {
+    describe('no provided options', () => {
+      it('calls the request endpoint wo args and returns response', async () => {
+        const response = {
+          requests: [],
+          meta: { total: 0 },
+          requestJournalDisabled: false
+        };
+
+        nock('http://localhost:8080', {
+          reqheaders: { 'Content-Type': 'application/json' }
+        })
+          .get('/__admin/requests')
+          .reply(200, response);
+
+        const promise = WireMockMapper.getRequests();
+
+        await expect(promise).resolves.toEqual(response);
+      });
+    });
+
+    describe('by stub id', () => {
+      it('calls the request endpoint w matchingStub query param and returns response', async () => {
+        const stubId = 'abc';
+        const response = {
+          requests: [],
+          meta: { total: 0 },
+          requestJournalDisabled: false
+        };
+
+        nock('http://localhost:8080', {
+          reqheaders: { 'Content-Type': 'application/json' }
+        })
+          .get(`/__admin/requests?matchingStub=${stubId}`)
+          .reply(200, response);
+
+        const promise = WireMockMapper.getRequests({ stubId });
+
+        await expect(promise).resolves.toEqual(response);
+      });
+    });
+
+    it('rejects the promise if the request returns a status code that is not 200', async () => {
+      nock('http://localhost:8080').get('/__admin/requests').reply(400);
+
+      const promise = WireMockMapper.getRequests();
 
       await expect(promise).rejects.toThrow();
     });

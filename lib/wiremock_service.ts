@@ -44,6 +44,27 @@ export class WireMockService {
     });
   }
 
+  public static async getRequests(option?: GetRequestOptions): Promise<string> {
+    const queryString = option?.stubId ? `matchingStub=${option.stubId}` : '';
+
+    return new Promise<string>((resolve, reject) => {
+      const request = http.request(
+        {
+          headers: { 'Content-Type': 'application/json' },
+          hostname: Configuration.wireMockHost,
+          method: 'GET',
+          path: [this.WIREMOCK_REQUESTS_PATH, queryString]
+            .filter(Boolean)
+            .join('?'),
+          port: Configuration.wireMockPort
+        },
+        WireMockService.responseHandler(resolve, reject)
+      );
+      request.on('error', reject);
+      request.end();
+    });
+  }
+
   public static async sendToWireMock(
     requestBuilder: RequestBuilder,
     responseBuilder: ResponseBuilder,
@@ -75,6 +96,7 @@ export class WireMockService {
   private static readonly WIREMOCK_CLEAR_MAPPINGS_PATH =
     '/__admin/mappings/reset';
   private static readonly WIREMOCK_MAPPINGS_PATH = '/__admin/mappings';
+  private static readonly WIREMOCK_REQUESTS_PATH = '/__admin/requests';
 
   private static responseHandler(
     resolve: (value: string) => void,
@@ -92,3 +114,6 @@ export class WireMockService {
     };
   }
 }
+
+type RequestsByStubId = { stubId: string };
+export type GetRequestOptions = undefined | RequestsByStubId;
