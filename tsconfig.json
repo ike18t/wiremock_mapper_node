@@ -16,7 +16,7 @@
     "rootDir": ".",
     "outDir": "dist",
     "allowSyntheticDefaultImports": true,
-    "removeComments": true,
+    "removeComments": false,
     "experimentalDecorators": true,
     "typeRoots": ["./node_modules/@types"],
     "strict": true

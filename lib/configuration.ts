@@ -11,7 +11,25 @@ export class Configuration {
     return Configuration.responseBuilderImpl;
   }
 
+  public static get baseUrl(): URL | undefined {
+    return Configuration.baseURL;
+  }
+
+  public static set wireMockBaseUrl(url: string) {
+    const urlObj = new URL(url);
+    Configuration.baseURL = urlObj;
+
+    Configuration.wireMockHost = urlObj.hostname;
+    Configuration.wireMockPort = Number(urlObj.port);
+  }
+
+  /**
+   * @deprecated - Use wireMockBaseUrl instead
+   */
   public static wireMockHost = 'localhost';
+  /**
+   * @deprecated - Use wireMockBaseUrl instead
+   */
   public static wireMockPort = 8080;
 
   public static createGlobalMapping(wireMockMapping: GlobalWireMockMapping) {
@@ -23,6 +41,7 @@ export class Configuration {
     Configuration.responseBuilderImpl = new ResponseBuilderImpl();
   }
 
+  private static baseURL?: URL;
   private static requestBuilderImpl: RequestBuilderImpl =
     new RequestBuilderImpl();
   private static responseBuilderImpl: ResponseBuilderImpl =

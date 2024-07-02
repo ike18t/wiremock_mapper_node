@@ -7,10 +7,36 @@
 
 DSL for setting up WireMock mappings
 
-# Installation
+## Installation
 
 ```bash
 npm install wiremock-mapper
+```
+
+## Configuring
+
+```typescript
+import { Configuration } from 'wiremock-mapper';
+
+Configuration.wireMockBaseUrl = 'http://localhost:8080/some_path_prefix'; // default is 'http://localhost:8080'
+```
+
+### Creating a global mapping
+
+Global mappings are a way to predefine part o
+
+```typescript
+import { Configuration } from 'wiremock-mapper';
+
+Configration.createGlobalMapping((request, response) => {});
+```
+
+### Reset global mapping
+
+```typescript
+import { Configration } from 'wiremock-mapper';
+
+Configration.reset();
 ```
 
 ## Create a mapping
@@ -29,7 +55,7 @@ await WireMockMapper.createMapping((req, res) => {});
 
 ### Define matching parameters
 
-All request modifiers are set from `res` provided by `createMapping`, and return an instance of `RequestBuilder`, `MatchBuilder`, or `UrlMatchBuilder`. These can be chained together to form a complete request expectation.
+All request modifiers are set from `req` provided by `createMapping`, and return an instance of `RequestBuilder`, `MatchBuilder`, or `UrlMatchBuilder`. These can be chained together to form a complete request expectation.
 
 It should read like a sentence when set up properly.
 

@@ -93,10 +93,17 @@ export class WireMockService {
     });
   }
 
-  private static readonly WIREMOCK_CLEAR_MAPPINGS_PATH =
-    '/__admin/mappings/reset';
-  private static readonly WIREMOCK_MAPPINGS_PATH = '/__admin/mappings';
-  private static readonly WIREMOCK_REQUESTS_PATH = '/__admin/requests';
+  private static get WIREMOCK_CLEAR_MAPPINGS_PATH() {
+    return `${Configuration.baseUrl?.pathname || ''}/__admin/mappings/reset`;
+  }
+
+  private static get WIREMOCK_MAPPINGS_PATH() {
+    return `${Configuration.baseUrl?.pathname || ''}/__admin/mappings`;
+  }
+
+  private static get WIREMOCK_REQUESTS_PATH() {
+    return `${Configuration.baseUrl?.pathname || ''}/__admin/requests`;
+  }
 
   private static responseHandler(
     resolve: (value: string) => void,
