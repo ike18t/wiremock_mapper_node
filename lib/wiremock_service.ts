@@ -94,15 +94,15 @@ export class WireMockService {
   }
 
   private static get WIREMOCK_CLEAR_MAPPINGS_PATH() {
-    return `${Configuration.baseUrl?.pathname || ''}/__admin/mappings/reset`;
+    return `${Configuration.baseUrl?.pathname?.replace(/\/$/, '') || ''}/__admin/mappings/reset`;
   }
 
   private static get WIREMOCK_MAPPINGS_PATH() {
-    return `${Configuration.baseUrl?.pathname || ''}/__admin/mappings`;
+    return `${Configuration.baseUrl?.pathname?.replace(/\/$/, '') || ''}/__admin/mappings`;
   }
 
   private static get WIREMOCK_REQUESTS_PATH() {
-    return `${Configuration.baseUrl?.pathname || ''}/__admin/requests`;
+    return `${Configuration.baseUrl?.pathname?.replace(/\/$/, '') || ''}/__admin/requests`;
   }
 
   private static responseHandler(
