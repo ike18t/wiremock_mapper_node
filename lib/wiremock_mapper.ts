@@ -50,4 +50,10 @@ export class WireMockMapper {
         .catch(reject);
     });
   }
+
+  public static async deleteRequests(
+    deleteRequestOptions?: GetRequestOptions
+  ): Promise<void> {
+    return WireMockService.deleteRequests(deleteRequestOptions);
+  }
 }

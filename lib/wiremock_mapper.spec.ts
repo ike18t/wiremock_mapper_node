@@ -396,4 +396,36 @@ describe('WireMockMapper', () => {
       await expect(promise).rejects.toThrow();
     });
   });
+
+  describe('deleteRequests', () => {
+    it('sends a DELETE request to wiremock', async () => {
+      nock('http://localhost:8080', {}).delete('/__admin/requests').reply(200);
+
+      const promise = WireMockMapper.deleteRequests();
+
+      await expect(promise).resolves.toBeUndefined();
+    });
+
+    it('sends a DELETE request with stub id to wiremock', async () => {
+      const stubId = 'abc';
+
+      nock('http://localhost:8080', {})
+        .delete(`/__admin/requests/${stubId}`)
+        .reply(200);
+
+      const promise = WireMockMapper.deleteRequests({ stubId });
+
+      await expect(promise).resolves.toBeUndefined();
+    });
+
+    it('rejects the promise if there was an error with the request', async () => {
+      nock('http://localhost:8080')
+        .delete('/__admin/requests')
+        .replyWithError('something went wrong...sorry dude...');
+
+      const promise = WireMockMapper.deleteRequests();
+
+      await expect(promise).rejects.toThrow();
+    });
+  });
 });
