@@ -44,6 +44,28 @@ export class WireMockService {
     });
   }
 
+  public static async deleteRequests(
+    option?: DeleteRequestOptions
+  ): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const request = http.request(
+        {
+          hostname: Configuration.wireMockHost,
+          method: 'DELETE',
+          path: [this.WIREMOCK_REQUESTS_PATH, option?.stubId]
+            .filter(Boolean)
+            .join('/'),
+          port: Configuration.wireMockPort
+        },
+        WireMockService.responseHandler(() => {
+          resolve();
+        }, reject)
+      );
+      request.on('error', reject);
+      request.end();
+    });
+  }
+
   public static async getRequests(option?: GetRequestOptions): Promise<string> {
     const queryString = option?.stubId ? `matchingStub=${option.stubId}` : '';
 
@@ -124,3 +146,4 @@ export class WireMockService {
 
 type RequestsByStubId = { stubId: string };
 export type GetRequestOptions = undefined | RequestsByStubId;
+export type DeleteRequestOptions = undefined | RequestsByStubId;
