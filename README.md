@@ -7,6 +7,14 @@
 
 DSL for setting up WireMock mappings
 
+A TypeScript/JavaScript library that provides a fluent API for creating [WireMock](http://wiremock.org/) mappings. WireMock is a simulator for HTTP-based APIs that allows you to stub and mock web services during development and testing.
+
+## Prerequisites
+
+- A running WireMock server (default: `http://localhost:8080`)
+- Node.js 12+ 
+- TypeScript (recommended)
+
 ## Installation
 
 ```bash
@@ -23,20 +31,31 @@ Configuration.wireMockBaseUrl = 'http://localhost:8080/some_path_prefix'; // def
 
 ### Creating a global mapping
 
-Global mappings are a way to predefine part o
+Global mappings are a way to predefine part of your request/response configuration that will be applied to all mappings created afterwards.
 
 ```typescript
 import { Configuration } from 'wiremock-mapper';
 
-Configration.createGlobalMapping((request, response) => {});
+// Set up global configuration that applies to all future mappings
+Configuration.createGlobalMapping((request, response) => {
+  // Add common headers to all requests
+  request.withHeader('Authorization').equalTo('Bearer token123');
+  
+  // Add common response headers
+  response.withHeader('Content-Type').equalTo('application/json');
+  response.withHeader('X-API-Version').equalTo('v1');
+});
+
+// Now all subsequent mappings will include these configurations
 ```
 
 ### Reset global mapping
 
 ```typescript
-import { Configration } from 'wiremock-mapper';
+import { Configuration } from 'wiremock-mapper';
 
-Configration.reset();
+// Clear all global mappings
+Configuration.reset();
 ```
 
 ## Create a mapping
@@ -47,7 +66,7 @@ Import the library
 import { WireMockMapper } from 'wiremock-mapper';
 ```
 
-Mappings are created with `WireMockMapper.createMapping()` which takes a function argument defining the mock behavior. It asyncronously sends the configuration to the WireMock server.
+Mappings are created with `WireMockMapper.createMapping()` which takes a function argument defining the mock behavior. It asynchronously sends the configuration to the WireMock server.
 
 ```typescript
 await WireMockMapper.createMapping((req, res) => {});
@@ -103,7 +122,7 @@ await WireMockMapper.createMapping((req, res) => {
 | `equalTo`          | `value: string`                                                      | `RequestBuilder` |
 | `equalToJson`      | `json: any, ignoreArrayOrder: boolean, ignoreExtraElements: boolean` | `RequestBuilder` |
 | `equalToXml`       | `xml: string`                                                        | `RequestBuilder` |
-| `macthing`         | `value: string`                                                      | `RequestBuilder` |
+| `matching`         | `value: string`                                                      | `RequestBuilder` |
 | `matchingJsonPath` | `path: string`                                                       | `RequestBuilder` |
 | `matchingXPath`    | `xpath: string`                                                      | `RequestBuilder` |
 | `notMatching`      | `value: string`                                                      | `RequestBuilder` |
@@ -168,3 +187,31 @@ await WireMockMapper.getRequests({ stubId: 'some_stub_id' });
 ```
 
 The interface for the returned object can be found [here](https://github.com/ike18t/wiremock_mapper_node/blob/master/lib/requests_response.ts#L1-L7).
+
+## Troubleshooting
+
+### Common Issues
+
+**WireMock server not running**
+- Ensure WireMock is running on the expected port (default: 8080)
+- Check if the `Configuration.wireMockBaseUrl` is correctly set
+
+**Connection refused errors**
+- Verify the WireMock server URL and port
+- Check if there are any firewall restrictions
+- Ensure the WireMock server is accessible from your application
+
+**Mapping not working as expected**
+- Check the WireMock server logs for any errors
+- Verify your request matching patterns are correct
+- Use `WireMockMapper.getRequests()` to see what requests were actually received
+
+**TypeScript compilation errors**
+- Ensure you have the latest version of TypeScript installed
+- Check that your `tsconfig.json` includes the necessary type definitions
+
+### Getting Help
+
+- Check the [GitHub Issues](https://github.com/ike18t/wiremock_mapper_node/issues) for existing problems
+- Review the [WireMock documentation](http://wiremock.org/docs/) for underlying concepts
+- Create a new issue with a minimal reproduction case if needed
