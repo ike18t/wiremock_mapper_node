@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.1](https://github.com/ike18t/wiremock_mapper_node/compare/v0.5.0...v0.7.1) (2025-07-15)
+
+
+### Features
+
+* add ability to delete requests ([aa5d6b5](https://github.com/ike18t/wiremock_mapper_node/commit/aa5d6b538e518246dff1b0f5e739956490e1a195))
+* add e2e tests with testcontainers ([786221a](https://github.com/ike18t/wiremock_mapper_node/commit/786221a297644a9a308b3744753d0da1ed90584a))
+* add Jest matchers with global configuration support ([987703c](https://github.com/ike18t/wiremock_mapper_node/commit/987703cf025209269f5aa94f7a40c834192f61f8))
+
 ## 0.7.0 (2024-10-11)
 
 
