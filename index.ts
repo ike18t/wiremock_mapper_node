@@ -4,3 +4,6 @@ export { ResponseBuilder } from './lib/builders/response_builder';
 export { ScenarioBuilder } from './lib/builders/scenario_builder';
 export { WireMockMapper } from './lib/wiremock_mapper';
 export { WireMockMapping } from './lib/wiremock_mapping';
+
+// Optional Jest utilities - only import if using Jest
+export { wiremockMapperMatchers } from './lib/jest-matchers';

@@ -2,6 +2,11 @@ import { RequestBuilderImpl } from './builders/request_builder';
 import { ResponseBuilderImpl } from './builders/response_builder';
 import { GlobalWireMockMapping } from './wiremock_mapping';
 
+export type MatcherOptions = {
+  retries: number;
+  delay: number;
+};
+
 export class Configuration {
   public static get requestBuilder(): RequestBuilderImpl {
     return Configuration.requestBuilderImpl;
@@ -34,6 +39,15 @@ export class Configuration {
 
   public static createGlobalMapping(wireMockMapping: GlobalWireMockMapping) {
     wireMockMapping(this.requestBuilder, this.responseBuilder);
+  }
+
+  public static matcherOptions: MatcherOptions = {
+    retries: 15,
+    delay: 200
+  };
+
+  public static setMatcherOptions(options: Partial<MatcherOptions>) {
+    Configuration.matcherOptions = { ...Configuration.matcherOptions, ...options };
   }
 
   public static reset() {
