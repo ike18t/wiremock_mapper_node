@@ -10,7 +10,7 @@
     "README"
   ],
   "scripts": {
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && tsc --project tsconfig.build.json",
     "clean": "rm -rf dist",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "lint": "eslint .",
@@ -39,9 +39,18 @@
     "nock": "^13.5.4",
     "prettier": "^3.2.5",
     "standard-version": "^9.5.0",
+    "testcontainers": "^10.28.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.10.0"
+  },
+  "peerDependencies": {
+    "jest": ">=24.0.0"
+  },
+  "peerDependenciesMeta": {
+    "jest": {
+      "optional": true
+    }
   }
 }
