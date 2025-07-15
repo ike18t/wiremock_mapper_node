@@ -188,6 +188,146 @@ await WireMockMapper.getRequests({ stubId: 'some_stub_id' });
 
 The interface for the returned object can be found [here](https://github.com/ike18t/wiremock_mapper_node/blob/master/lib/requests_response.ts#L1-L7).
 
+## Jest Matchers
+
+The library provides custom Jest matchers for testing WireMock interactions with built-in retry logic for handling asynchronous operations.
+
+### Setup
+
+```typescript
+import { wiremockMapperMatchers } from 'wiremock-mapper';
+
+// Extend Jest with WireMock matchers
+expect.extend(wiremockMapperMatchers);
+```
+
+### Available Matchers
+
+#### `toHaveBeenRequested(options?)`
+
+Verifies that a stub received at least one request.
+
+```typescript
+const stubId = await WireMockMapper.createMapping((req, res) => {
+  req.isAGet.withUrlPath.equalTo('/api/users');
+  res.withJsonBody([]).withStatus(200);
+});
+
+// Make API call
+await fetch('http://localhost:8080/api/users');
+
+// Verify the stub was called
+await expect(stubId).toHaveBeenRequested();
+
+// With custom retry options
+await expect(stubId).toHaveBeenRequested({ retries: 5, delay: 100 });
+```
+
+#### `toHaveBeenRequestedWith(expected, options?)`
+
+Verifies that a stub received a request with the specified payload.
+
+```typescript
+const stubId = await WireMockMapper.createMapping((req, res) => {
+  req.isAPost.withUrlPath.equalTo('/api/users');
+  res.withJsonBody({ id: 123 }).withStatus(201);
+});
+
+const userData = { name: 'John Doe', email: 'john@example.com' };
+
+// Make API call with payload
+await fetch('http://localhost:8080/api/users', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(userData)
+});
+
+// Verify the stub was called with expected payload
+await expect(stubId).toHaveBeenRequestedWith(userData);
+```
+
+#### `toHaveBeenRequestedTimes(expectedCount, options?)`
+
+Verifies that a stub received exactly the specified number of requests.
+
+```typescript
+const stubId = await WireMockMapper.createMapping((req, res) => {
+  req.isAGet.withUrlPath.equalTo('/api/health');
+  res.withBody('OK').withStatus(200);
+});
+
+// Make multiple API calls
+await fetch('http://localhost:8080/api/health');
+await fetch('http://localhost:8080/api/health');
+await fetch('http://localhost:8080/api/health');
+
+// Verify the stub was called exactly 3 times
+await expect(stubId).toHaveBeenRequestedTimes(3);
+```
+
+### Global Matcher Configuration
+
+You can configure global defaults for all matchers:
+
+```typescript
+import { Configuration } from 'wiremock-mapper';
+
+// Set global retry options
+Configuration.setMatcherOptions({
+  retries: 10,  // Number of retry attempts (default: 15)
+  delay: 100    // Delay between retries in milliseconds (default: 200)
+});
+```
+
+Individual matchers can override global settings:
+
+```typescript
+// Override global settings for this specific assertion
+await expect(stubId).toHaveBeenRequested({ retries: 3, delay: 50 });
+```
+
+### Matcher Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `retries` | `number` | `15` | Number of retry attempts when waiting for requests |
+| `delay` | `number` | `200` | Delay in milliseconds between retry attempts |
+
+### Example Test
+
+```typescript
+import { WireMockMapper, Configuration, wiremockMapperMatchers } from 'wiremock-mapper';
+
+expect.extend(wiremockMapperMatchers);
+
+describe('API Tests', () => {
+  beforeAll(() => {
+    Configuration.wireMockBaseUrl = 'http://localhost:8080';
+  });
+
+  beforeEach(async () => {
+    await WireMockMapper.clearAllMappings();
+  });
+
+  it('should handle user creation', async () => {
+    const stubId = await WireMockMapper.createMapping((req, res) => {
+      req.isAPost.withUrlPath.equalTo('/api/users');
+      res.withJsonBody({ id: 123, name: 'John Doe' }).withStatus(201);
+    });
+
+    const userData = { name: 'John Doe', email: 'john@example.com' };
+    
+    await fetch('http://localhost:8080/api/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData)
+    });
+
+    await expect(stubId).toHaveBeenRequestedWith(userData);
+  });
+});
+```
+
 ## Troubleshooting
 
 ### Common Issues
