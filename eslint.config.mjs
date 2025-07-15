@@ -6,7 +6,7 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   eslintConfigPrettier,
-  { ignores: ['jest.config.ts', 'eslint.config.mjs', 'coverage'] },
+  { ignores: ['jest.config.ts', 'eslint.config.mjs', 'coverage', 'dist'] },
   {
     languageOptions: {
       parserOptions: {
