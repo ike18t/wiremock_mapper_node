@@ -1,7 +1,7 @@
+![NPM Version](https://img.shields.io/npm/v/wiremock-mapper?color=brightgreen)
 [![Node.js CI](https://github.com/ike18t/wiremock_mapper_node/actions/workflows/test.yml/badge.svg)](https://github.com/ike18t/wiremock_mapper_node/actions/workflows/test.yml)
 [![Code Climate](https://codeclimate.com/github/ike18t/wiremock_mapper_node/badges/gpa.svg)](https://codeclimate.com/github/ike18t/wiremock_mapper_node)
 [![Test Coverage](https://codeclimate.com/github/ike18t/wiremock_mapper_node/badges/coverage.svg)](https://codeclimate.com/github/ike18t/wiremock_mapper_node/coverage)
-[![npm version](https://badge.fury.io/js/wiremock-mapper.svg)](https://badge.fury.io/js/wiremock-mapper)
 
 # wiremock-mapper
 
@@ -12,7 +12,7 @@ A TypeScript/JavaScript library that provides a fluent API for creating [WireMoc
 ## Prerequisites
 
 - A running WireMock server (default: `http://localhost:8080`)
-- Node.js 12+ 
+- Node.js 12+
 - TypeScript (recommended)
 
 ## Installation
@@ -40,7 +40,7 @@ import { Configuration } from 'wiremock-mapper';
 Configuration.createGlobalMapping((request, response) => {
   // Add common headers to all requests
   request.withHeader('Authorization').equalTo('Bearer token123');
-  
+
   // Add common response headers
   response.withHeader('Content-Type').equalTo('application/json');
   response.withHeader('X-API-Version').equalTo('v1');
@@ -274,8 +274,8 @@ import { Configuration } from 'wiremock-mapper';
 
 // Set global retry options
 Configuration.setMatcherOptions({
-  retries: 10,  // Number of retry attempts (default: 15)
-  delay: 100    // Delay between retries in milliseconds (default: 200)
+  retries: 10, // Number of retry attempts (default: 15)
+  delay: 100 // Delay between retries in milliseconds (default: 200)
 });
 ```
 
@@ -288,15 +288,19 @@ await expect(stubId).toHaveBeenRequested({ retries: 3, delay: 50 });
 
 ### Matcher Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `retries` | `number` | `15` | Number of retry attempts when waiting for requests |
-| `delay` | `number` | `200` | Delay in milliseconds between retry attempts |
+| Option    | Type     | Default | Description                                        |
+| --------- | -------- | ------- | -------------------------------------------------- |
+| `retries` | `number` | `15`    | Number of retry attempts when waiting for requests |
+| `delay`   | `number` | `200`   | Delay in milliseconds between retry attempts       |
 
 ### Example Test
 
 ```typescript
-import { WireMockMapper, Configuration, wiremockMapperMatchers } from 'wiremock-mapper';
+import {
+  WireMockMapper,
+  Configuration,
+  wiremockMapperMatchers
+} from 'wiremock-mapper';
 
 expect.extend(wiremockMapperMatchers);
 
@@ -316,7 +320,7 @@ describe('API Tests', () => {
     });
 
     const userData = { name: 'John Doe', email: 'john@example.com' };
-    
+
     await fetch('http://localhost:8080/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -333,20 +337,24 @@ describe('API Tests', () => {
 ### Common Issues
 
 **WireMock server not running**
+
 - Ensure WireMock is running on the expected port (default: 8080)
 - Check if the `Configuration.wireMockBaseUrl` is correctly set
 
 **Connection refused errors**
+
 - Verify the WireMock server URL and port
 - Check if there are any firewall restrictions
 - Ensure the WireMock server is accessible from your application
 
 **Mapping not working as expected**
+
 - Check the WireMock server logs for any errors
 - Verify your request matching patterns are correct
 - Use `WireMockMapper.getRequests()` to see what requests were actually received
 
 **TypeScript compilation errors**
+
 - Ensure you have the latest version of TypeScript installed
 - Check that your `tsconfig.json` includes the necessary type definitions
 
