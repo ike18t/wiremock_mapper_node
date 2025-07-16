@@ -33,17 +33,7 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm test
-  coverage:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: qltysh/qlty-action/coverage@v1
         with:
-          node-version: '20.x'
-          cache: 'npm'
-      - run: npm ci
-      - run: npm test
-      - uses: paambaati/codeclimate-action@v6.0.0
-        env:
-          CC_TEST_REPORTER_ID: 7ba98aca9f50871c9d498b22b2f7f11cc780e4894a93127e843eecd6307588ba
+          token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
+          files: coverage/lcov.info
