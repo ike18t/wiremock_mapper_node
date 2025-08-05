@@ -41,7 +41,7 @@ export const wiremockMapperMatchers = {
       }
     }
     return {
-      message: () => 'Request not found',
+      message: () => `Request not found for stub: ${stubId}`,
       pass: false
     };
   },
@@ -81,7 +81,7 @@ export const wiremockMapperMatchers = {
       }
     }
     return {
-      message: () => 'Request not found',
+      message: () => `Request not found for stub: ${stubId}`,
       pass: false
     };
   },
@@ -141,7 +141,10 @@ declare global {
   namespace jest {
     interface Matchers<R> {
       toHaveBeenRequested(options?: Partial<MatcherOptions>): Promise<R>;
-      toHaveBeenRequestedWith(expected: unknown, options?: Partial<MatcherOptions>): Promise<R>;
+      toHaveBeenRequestedWith(
+        expected: unknown,
+        options?: Partial<MatcherOptions>
+      ): Promise<R>;
       toHaveBeenRequestedTimes(
         expectedCount: number,
         options?: Partial<MatcherOptions>
