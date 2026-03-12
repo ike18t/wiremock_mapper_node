@@ -42,8 +42,25 @@ export class RequestBuilderImpl implements RequestBuilder {
 
   public clone() {
     const clone = new RequestBuilderImpl();
-    clone.request = { ...this.request };
-    clone.urlMatchBuilder = this.urlMatchBuilder;
+    clone.request = {
+      ...this.request,
+      headers: this.request.headers
+        ? { ...this.request.headers }
+        : undefined,
+      cookies: this.request.cookies
+        ? { ...this.request.cookies }
+        : undefined,
+      queryParameters: this.request.queryParameters
+        ? { ...this.request.queryParameters }
+        : undefined,
+      bodyPatterns: this.request.bodyPatterns
+        ? [...this.request.bodyPatterns]
+        : undefined,
+      basicAuthCredentials: this.request.basicAuthCredentials
+        ? { ...this.request.basicAuthCredentials }
+        : undefined
+    };
+    clone.urlMatchBuilder = this.urlMatchBuilder.clone(clone);
     return clone;
   }
 

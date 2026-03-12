@@ -23,7 +23,12 @@ export class ResponseBuilderImpl implements ResponseBuilder {
 
   public clone() {
     const clone = new ResponseBuilderImpl();
-    clone.jsonObject = { ...this.jsonObject };
+    clone.jsonObject = {
+      ...this.jsonObject,
+      headers: this.jsonObject.headers
+        ? { ...this.jsonObject.headers }
+        : undefined
+    };
     return clone;
   }
 

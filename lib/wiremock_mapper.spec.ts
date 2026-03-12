@@ -6,6 +6,10 @@ import { Configuration } from './configuration';
 import { WireMockMapper } from './wiremock_mapper';
 
 describe('WireMockMapper', () => {
+  beforeEach(() => {
+    Configuration.reset();
+  });
+
   describe('createMapping', () => {
     it('posts the correct json to wiremock with a string response', async () => {
       const expectedRequestBody = {
@@ -224,6 +228,114 @@ describe('WireMockMapper', () => {
       );
 
       await expect(promise).resolves.toBe('123');
+    });
+
+    it('does not bleed request headers between mappings', async () => {
+      Configuration.createGlobalMapping((request: RequestBuilder) => {
+        request.withHeader('X-Global').equalTo('global-value');
+      });
+
+      const firstExpectedBody = {
+        request: {
+          headers: {
+            'X-Global': { equalTo: 'global-value' },
+            'X-First': { equalTo: 'first-value' }
+          },
+          method: 'GET',
+          urlPath: '/first'
+        },
+        response: { body: 'first' }
+      };
+
+      const secondExpectedBody = {
+        request: {
+          headers: {
+            'X-Global': { equalTo: 'global-value' },
+            'X-Second': { equalTo: 'second-value' }
+          },
+          method: 'GET',
+          urlPath: '/second'
+        },
+        response: { body: 'second' }
+      };
+
+      nock('http://localhost:8080')
+        .post('/__admin/mappings', firstExpectedBody)
+        .reply(201, { id: '1' });
+
+      nock('http://localhost:8080')
+        .post('/__admin/mappings', secondExpectedBody)
+        .reply(201, { id: '2' });
+
+      await WireMockMapper.createMapping(
+        (request: RequestBuilder, respond: ResponseBuilder) => {
+          request.isAGet.withUrlPath
+            .equalTo('/first')
+            .withHeader('X-First')
+            .equalTo('first-value');
+          respond.withBody('first');
+        }
+      );
+
+      const promise = WireMockMapper.createMapping(
+        (request: RequestBuilder, respond: ResponseBuilder) => {
+          request.isAGet.withUrlPath
+            .equalTo('/second')
+            .withHeader('X-Second')
+            .equalTo('second-value');
+          respond.withBody('second');
+        }
+      );
+
+      await expect(promise).resolves.toBe('2');
+    });
+
+    it('does not bleed response headers between mappings', async () => {
+      Configuration.createGlobalMapping(
+        (_request: RequestBuilder, respond: ResponseBuilder) => {
+          respond.withHeader('X-Global', 'global-value');
+        }
+      );
+
+      const firstExpectedBody = {
+        request: { method: 'GET', urlPath: '/first' },
+        response: {
+          body: 'first',
+          headers: { 'X-Global': 'global-value', 'X-First': 'first-value' }
+        }
+      };
+
+      const secondExpectedBody = {
+        request: { method: 'GET', urlPath: '/second' },
+        response: {
+          body: 'second',
+          headers: { 'X-Global': 'global-value', 'X-Second': 'second-value' }
+        }
+      };
+
+      nock('http://localhost:8080')
+        .post('/__admin/mappings', firstExpectedBody)
+        .reply(201, { id: '1' });
+
+      nock('http://localhost:8080')
+        .post('/__admin/mappings', secondExpectedBody)
+        .reply(201, { id: '2' });
+
+      await WireMockMapper.createMapping(
+        (request: RequestBuilder, respond: ResponseBuilder) => {
+          request.isAGet.withUrlPath.equalTo('/first');
+          respond.withBody('first').withHeader('X-First', 'first-value');
+        }
+      );
+
+      const promise = WireMockMapper.createMapping(
+        (request: RequestBuilder, respond: ResponseBuilder) => {
+          request.isAGet.withUrlPath.equalTo('/second');
+          respond.withBody('second').withHeader('X-Second', 'second-value');
+        }
+      );
+
+      await expect(promise).resolves.toBe('2');
     });
 
     it('subsequent requests do not have state from first', async () => {

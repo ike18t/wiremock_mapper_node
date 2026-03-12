@@ -20,5 +20,11 @@ export class UrlMatchBuilder {
     return this.requestBuilder;
   }
 
+  public clone(newRequestBuilder: RequestBuilder): UrlMatchBuilder {
+    const clone = new UrlMatchBuilder(newRequestBuilder, this.path);
+    clone.jsonObject = { ...this.jsonObject };
+    return clone;
+  }
+
   public toJSON = () => this.jsonObject;
 }
