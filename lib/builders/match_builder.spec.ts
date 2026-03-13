@@ -201,4 +201,108 @@ describe('MatchBuilder', () => {
       expect(builder.notMatching('')).toEqual(requestBuilder);
     });
   });
+
+  describe('thunk support', () => {
+    it('resolves a thunk in equalTo at toJSON time', () => {
+      const builder = new MatchBuilder(new RequestBuilderImpl());
+      builder.equalTo(() => 'lazy-value');
+
+      const expectedJSON = JSON.stringify({ equalTo: 'lazy-value' });
+      expect(JSON.stringify(builder)).toEqual(expectedJSON);
+    });
+
+    it('resolves a thunk in containing at toJSON time', () => {
+      const builder = new MatchBuilder(new RequestBuilderImpl());
+      builder.containing(() => 'lazy-value');
+
+      const expectedJSON = JSON.stringify({ contains: 'lazy-value' });
+      expect(JSON.stringify(builder)).toEqual(expectedJSON);
+    });
+
+    it('resolves a thunk in matching at toJSON time', () => {
+      const builder = new MatchBuilder(new RequestBuilderImpl());
+      builder.matching(() => 'lazy-pattern');
+
+      const expectedJSON = JSON.stringify({ matches: 'lazy-pattern' });
+      expect(JSON.stringify(builder)).toEqual(expectedJSON);
+    });
+
+    it('resolves a thunk in notMatching at toJSON time', () => {
+      const builder = new MatchBuilder(new RequestBuilderImpl());
+      builder.notMatching(() => 'lazy-pattern');
+
+      const expectedJSON = JSON.stringify({ doesNotMatch: 'lazy-pattern' });
+      expect(JSON.stringify(builder)).toEqual(expectedJSON);
+    });
+
+    it('resolves a thunk in matchingJsonPath at toJSON time', () => {
+      const builder = new MatchBuilder(new RequestBuilderImpl());
+      builder.matchingJsonPath(() => '$.store.book');
+
+      const expectedJSON = JSON.stringify({
+        matchesJsonPath: '$.store.book'
+      });
+      expect(JSON.stringify(builder)).toEqual(expectedJSON);
+    });
+
+    it('resolves a thunk in matchingXPath at toJSON time', () => {
+      const builder = new MatchBuilder(new RequestBuilderImpl());
+      builder.matchingXPath(() => '//book');
+
+      const expectedJSON = JSON.stringify({ matchesXPath: '//book' });
+      expect(JSON.stringify(builder)).toEqual(expectedJSON);
+    });
+
+    it('resolves a thunk in equalToXml at toJSON time', () => {
+      const builder = new MatchBuilder(new RequestBuilderImpl());
+      builder.equalToXml(() => '<foo>bar</foo>');
+
+      const expectedJSON = JSON.stringify({
+        equalToXml: '<foo>bar</foo>'
+      });
+      expect(JSON.stringify(builder)).toEqual(expectedJSON);
+    });
+
+    it('resolves a thunk in equalToJson at toJSON time', () => {
+      const builder = new MatchBuilder(new RequestBuilderImpl());
+      builder.equalToJson(() => '{"key":"val"}');
+
+      const expectedJSON = JSON.stringify({
+        equalToJson: '{"key":"val"}'
+      });
+      expect(JSON.stringify(builder)).toEqual(expectedJSON);
+    });
+
+    it('evaluates thunk at serialization time, not at method call time', () => {
+      let counter = 0;
+      const thunk = () => `call-${++counter}`;
+
+      const builder = new MatchBuilder(new RequestBuilderImpl());
+      builder.equalTo(thunk);
+
+      expect(JSON.stringify(builder)).toEqual(
+        JSON.stringify({ equalTo: 'call-1' })
+      );
+      expect(JSON.stringify(builder)).toEqual(
+        JSON.stringify({ equalTo: 'call-2' })
+      );
+    });
+
+    it('shared builder with thunk returns different values per serialization', () => {
+      let context = 'test-A';
+      const thunk = () => context;
+
+      const builder = new MatchBuilder(new RequestBuilderImpl());
+      builder.equalTo(thunk);
+
+      expect(JSON.stringify(builder)).toEqual(
+        JSON.stringify({ equalTo: 'test-A' })
+      );
+
+      context = 'test-B';
+      expect(JSON.stringify(builder)).toEqual(
+        JSON.stringify({ equalTo: 'test-B' })
+      );
+    });
+  });
 });
