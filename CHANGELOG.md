@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.4](https://github.com/ike18t/wiremock_mapper_node/compare/v0.7.3...v0.7.4) (2026-03-16)
+
+
+### Bug Fixes
+
+* **npm:** pkg urls back to registry.npmjs.org ([a0afd52](https://github.com/ike18t/wiremock_mapper_node/commit/a0afd5292fd0711ad6683c3c27b0e644c7748b48))
+
 ### [0.7.3](https://github.com/ike18t/wiremock_mapper_node/compare/v0.7.2...v0.7.3) (2026-03-16)
 
 
