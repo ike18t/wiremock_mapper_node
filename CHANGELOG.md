@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.3](https://github.com/ike18t/wiremock_mapper_node/compare/v0.7.2...v0.7.3) (2026-03-16)
+
+
+### Features
+
+* **match-builder:** support lazy thunks for deferred value resolution ([33a0597](https://github.com/ike18t/wiremock_mapper_node/commit/33a05974c7930f5b2343d36d045364f82131bb0a))
+
+
+### Bug Fixes
+
+* deep-clone nested objects in builder clone methods to prevent global mapping state bleed ([c9d21b0](https://github.com/ike18t/wiremock_mapper_node/commit/c9d21b0fb3ab06e4aa58e247975e00b0e265af3a))
+
 ### [0.7.2](https://github.com/ike18t/wiremock_mapper_node/compare/v0.5.0...v0.7.2) (2025-08-05)
 
 
