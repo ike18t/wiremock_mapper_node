@@ -39,7 +39,7 @@
     "nock": "^13.5.4",
     "prettier": "^3.2.5",
     "standard-version": "^9.5.0",
-    "testcontainers": "^10.28.0",
+    "testcontainers": "^11.12.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
